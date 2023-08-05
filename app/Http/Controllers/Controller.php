@@ -10,4 +10,3 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 }
-// ini adalah komen tag
