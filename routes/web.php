@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WebcameraController;
+use App\Http\Controllers\ScannerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,4 +31,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('webcam', WebcameraController::class);
+    Route::resource('scanner',ScannerController::class);
 });
