@@ -1,5 +1,3 @@
-@extends('layouts.app')
-@section('content')
 
 <head>
     <title>laravel webcam capture image and save from camera - ItSolutionStuff.com</title>
@@ -10,13 +8,10 @@
         #results { padding:20px; border:1px solid; background:#ccc; }
     </style>
 </head>
-<body>
-    
 <div class="container">
     <h1 class="text-center">Laravel webcam capture image and save from camera - ItSolutionStuff.com</h1>
      
     <form method="POST" action="{{ route('webcam.store') }}">
-        @csrf
         <div class="row">
             <div class="col-md-6">
                 <div id="my_camera"></div>
@@ -52,5 +47,3 @@
         } );
     }
 </script>
-</body>
-@endsection

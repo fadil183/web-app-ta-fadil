@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Storage;
 
-class WebcamController extends Controller
+class WebcameraController extends Controller
 {
     // public function index(){
     //     return view('webcam');

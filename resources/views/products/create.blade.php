@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -31,6 +30,12 @@
 		        <div class="form-group">
 		            <strong>Name:</strong>
 		            <input type="text" name="name" class="form-control" placeholder="Name">
+		        </div>
+		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>picture:</strong>
+                    <a class="btn btn-primary" href="{{ route('camera.index') }}"> Back</a>
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">
