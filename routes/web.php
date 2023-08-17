@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WebcameraController;
 use App\Http\Controllers\ScannerController;
+use App\Http\Controllers\CreditController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,4 +34,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('products', ProductController::class);
     Route::resource('webcam', WebcameraController::class);
     Route::resource('scanner',ScannerController::class);
+    Route::resource('credit',CreditController::class);
 });

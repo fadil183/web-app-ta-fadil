@@ -4,11 +4,11 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Products</h2>
+                <h2>Daftar Bukti Kemas</h2>
             </div>
             <div class="pull-right">
                 @can('product-create')
-                <a class="btn btn-success" href="{{ route('products.create') }}"> Create New Product</a>
+                <a class="btn btn-success" href="{{ route('products.create') }}"> Tambah Bukti Kemas</a>
                 @endcan
             </div>
         </div>
@@ -23,7 +23,7 @@
     <table class="table table-bordered">
         <tr>
             <th>No</th>
-            <th>Name</th>
+            <th>Order Number</th>
             <th>Details</th>
             <th width="280px">Action</th>
         </tr>
@@ -52,5 +52,4 @@
 
     {!! $products->links() !!}
 
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
 @endsection

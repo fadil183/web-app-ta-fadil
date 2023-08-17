@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -28,14 +29,15 @@
          <div class="row">
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
-		            <strong>Name:</strong>
-		            <input type="text" name="name" class="form-control" placeholder="Name">
+		            <strong>Nomor Pesanan:</strong>
+                    <div id="qr-reader" style="width: 600dp"></div>    
+		            <input id="order_id" type="text" name="order_id" class="form-control" placeholder="nomor pesanan pada resi" value="">
 		        </div>
 		    </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>picture:</strong>
-                    <a class="btn btn-primary" href="{{ route('camera.index') }}"> Back</a>
+                    ...
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">
@@ -51,5 +53,35 @@
 
     </form>
 
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+    <script>
+        //mengecek apakah ada element id=order_id
+     var inputElement = document.getElementById("order_id");
+    function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Code scanned = ${decodedText}`, decodedResult);
+        inputElement.value=`${decodedText}`;
+        html5QrcodeScanner.clear();
+    }
+    
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", { fps: 10, QrDimensions : { width: 350, height: 150 } });
+        html5QrcodeScanner.render(onScanSuccess);
+    
+    
+    // let config = {
+    // fps: 10,
+    // qrbox: {width: 250, height: 100}
+    // // ,
+    // // rememberLastUsedCamera: true,
+    // // Only support camera scan type.
+    // // supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+    // };
+
+    // let html5QrcodeScanner = new Html5QrcodeScanner(
+    // "reader", config, /* verbose= */ false);
+    // html5QrcodeScanner.render(onScanSuccess);
+    
+
+    
+    
+</script>
 @endsection
