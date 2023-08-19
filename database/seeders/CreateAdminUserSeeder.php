@@ -8,7 +8,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class CreateAdminUseSeeder extends Seeder
+
+class CreateAdminUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

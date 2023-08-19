@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -37,7 +39,17 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>picture:</strong>
-                    ...
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="my_camera"></div>
+                            <br/>
+                            <input type=button value="Take Snapshot" onClick="take_snapshot()">
+                            <input type="hidden" name="image" class="image-tag">
+                        </div>
+                        <div class="col-md-6">
+                            <div id="results">Your captured image will appear here...</div>
+                        </div>
+                    </div>
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">
@@ -63,23 +75,25 @@
     }
     
     var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", { fps: 10, QrDimensions : { width: 350, height: 150 } });
+        "qr-reader", { fps: 10, qrbox : { width: 350, height: 150 } });
         html5QrcodeScanner.render(onScanSuccess);
     
+    Webcam.set({
+        width: 490,
+        height: 350,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
     
-    // let config = {
-    // fps: 10,
-    // qrbox: {width: 250, height: 100}
-    // // ,
-    // // rememberLastUsedCamera: true,
-    // // Only support camera scan type.
-    // // supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
-    // };
-
-    // let html5QrcodeScanner = new Html5QrcodeScanner(
-    // "reader", config, /* verbose= */ false);
-    // html5QrcodeScanner.render(onScanSuccess);
+    Webcam.attach( '#my_camera' );
     
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $(".image-tag").val(data_uri);
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+    }
+</script>
 
     
     

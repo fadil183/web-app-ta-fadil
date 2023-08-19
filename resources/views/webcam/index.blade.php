@@ -11,6 +11,7 @@
 </head>
 <div class="container">
     <form method="POST" action="{{ route('webcam.store') }}">
+    @csrf
         <div class="row">
             <div class="col-md-6">
                 <div id="my_camera"></div>

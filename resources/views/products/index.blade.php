@@ -24,17 +24,17 @@
         <tr>
             <th>No</th>
             <th>Order Number</th>
-            <th>Details</th>
+            <th>Tanggal Data Dimasukan</th>
             <th width="280px">Action</th>
         </tr>
 	    @foreach ($products as $product)
 	    <tr>
 	        <td>{{ ++$i }}</td>
-	        <td>{{ $product->name }}</td>
-	        <td>{{ $product->detail }}</td>
+	        <td>{{ $product->order_id }}</td>
+	        <td>{{ $product->created_at }}</td>
 	        <td>
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Show</a>
+                    <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Lihat Foto</a>
                     @can('product-edit')
                     <a class="btn btn-warning" href="{{ route('products.edit',$product->id) }}">Edit</a>
                     @endcan

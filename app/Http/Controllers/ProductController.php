@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+// use Storage;
+
 
 class ProductController extends Controller
 {
@@ -28,15 +32,32 @@ class ProductController extends Controller
     public function create():View{
         return view('products.create');
     }
-
+    //menyimpan data dari form tambah data
     public function store(Request $request):RedirectResponse{
         request()->validate([
-            'name'=>'required',
+            'order_id'=>'required',
             'detail'=>'required',
+            'image'=>'required',
         ]);
-        Product::create($request->all());
+        //Image
+        $img=$request->image;
+        $folderPath=('upload/');
 
-        return redirect()->route('products.index')->with('Success','Product created successfuly.');
+        $image_parts=explode(";base64",$img);
+        $image_type_aux= explode("image/", $image_parts[0]);
+        $image_type=$image_type_aux[1];
+
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName=$request->image.'.png';
+
+        $file=$folderPath.$fileName;
+        Storage::put($file, $image_base64,'public');
+
+        //String
+        Product::create($request->all());
+        
+        
+        return redirect()->route('products.index')->with('Success','Product created successfuly. berserta gambar'.$path);
     }
 
     //menampilkan data product tertentu
@@ -55,7 +76,7 @@ class ProductController extends Controller
     {
         //melakukan validasi untuk data yang dikirim apakah terdapat isinya atau tidak
         request()->validate([
-            'name'=>'required',
+            'order_id'=>'required',
             'detail'=>'required',
         ]);
         $products->update($request->all());
