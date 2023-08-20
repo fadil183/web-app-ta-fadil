@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('order_id');
             $table->text('detail');
+            $table->text('order_image');
             $table->timestamps();
         });
     }

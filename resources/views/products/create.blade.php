@@ -66,7 +66,7 @@
     </form>
 
     <script>
-        //mengecek apakah ada element id=order_id
+     //code scanner
      var inputElement = document.getElementById("order_id");
     function onScanSuccess(decodedText, decodedResult) {
         console.log(`Code scanned = ${decodedText}`, decodedResult);
@@ -78,6 +78,7 @@
         "qr-reader", { fps: 10, qrbox : { width: 350, height: 150 } });
         html5QrcodeScanner.render(onScanSuccess);
     
+    //webcam
     Webcam.set({
         width: 490,
         height: 350,
@@ -95,7 +96,5 @@
     }
 </script>
 
-    
-    
 </script>
 @endsection

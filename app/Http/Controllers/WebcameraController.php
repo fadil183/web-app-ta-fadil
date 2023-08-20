@@ -28,7 +28,7 @@ class WebcameraController extends Controller
 
         $image_base64 = base64_decode($image_parts[1]);
         $fileName=uniqid().'.png';
-
+        
         $file=$folderPath.$fileName;
         Storage::put($file,$image_base64);
 

@@ -35,4 +35,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('webcam', WebcameraController::class);
     Route::resource('scanner',ScannerController::class);
     Route::resource('credit',CreditController::class);
+    Route::get('upload/{filename}', 'ProductController@displayImage')->name('products.displayImage');
 });

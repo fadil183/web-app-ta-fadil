@@ -41,28 +41,48 @@ class ProductController extends Controller
         ]);
         //Image
         $img=$request->image;
-        $folderPath=('upload/');
+        $folderPath="upload/";
 
         $image_parts=explode(";base64",$img);
-        $image_type_aux= explode("image/", $image_parts[0]);
+        $image_type_aux= explode("upload/", $image_parts[0]);
         $image_type=$image_type_aux[1];
 
         $image_base64 = base64_decode($image_parts[1]);
-        $fileName=$request->image.'.png';
-
+        $fileName=uniqid().'.png';
         $file=$folderPath.$fileName;
-        Storage::put($file, $image_base64,'public');
+       
+
 
         //String
+        //memasukan nama gambar kedalam order_image di array
+        $request->request->add(['order_image' => $file]);
+        // membuat data baru kedalam db
+        $request->image->storeAs($image_base64, $fileName);
         Product::create($request->all());
-        
-        
-        return redirect()->route('products.index')->with('Success','Product created successfuly. berserta gambar'.$path);
+        return redirect()->route('products.index')->with('Success','Product created successfuly. berserta gambar'.$fileName);
     }
 
     //menampilkan data product tertentu
     public function show(Product $product): View{
+        $image = Storage::get($product->order_image);
         return view('products.show', compact('product'));
+    }
+    public function displayImage($filename)
+    {
+    
+        $path = storage_public('upload/' . $filename);
+    
+        if (!File::exists($path)) {
+            abort(404);
+        }
+    
+        $file = File::get($path);
+        $type = File::mimeType($path);
+    
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+    
+        return $response;
     }
 
     //menampilkan formulir ubah product tertentu

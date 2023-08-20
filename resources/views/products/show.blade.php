@@ -25,6 +25,12 @@
                 {{ $product->detail }}
             </div>
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>photo:</strong>
+                <!-- <img src="{{ route('products.displayImage',$product->order_image) }}" alt="" title=""> -->
+            </div>
+        </div>
     </div>
 @endsection
 <p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
