@@ -7,8 +7,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
-// use Storage;
+// use Illuminate\Support\Facades\Storage;
+use Storage;
 
 
 class ProductController extends Controller
@@ -35,42 +35,40 @@ class ProductController extends Controller
     //menyimpan data dari form tambah data
     public function store(Request $request):RedirectResponse{
         request()->validate([
-            'order_id'=>'required',
+            'order_id'=>'required|unique:products,order_id|max:255',
             'detail'=>'required',
             'image'=>'required',
         ]);
         //Image
+        //mengatur gambar yang diambil dari webcam agar bisa disimpan kedalam storage
         $img=$request->image;
-        $folderPath="upload/";
+        $folderPath='images/';
 
         $image_parts=explode(";base64",$img);
-        $image_type_aux= explode("upload/", $image_parts[0]);
-        $image_type=$image_type_aux[1];
+        $image_type_aux= explode($folderPath, $image_parts[0]);
+        $image_type=$image_type_aux[0];
 
         $image_base64 = base64_decode($image_parts[1]);
         $fileName=uniqid().'.png';
         $file=$folderPath.$fileName;
-       
 
-
-        //String
-        //memasukan nama gambar kedalam order_image di array
-        $request->request->add(['order_image' => $file]);
-        // membuat data baru kedalam db
-        $request->image->storeAs($image_base64, $fileName);
-        Product::create($request->all());
-        return redirect()->route('products.index')->with('Success','Product created successfuly. berserta gambar'.$fileName);
+        
+        $request->request->add(['order_image' => $fileName]);
+        
+        if(!(Storage::disk('public_uploads')->put($file, $image_base64)&&Product::create($request->all()))) {
+            return false;
+        }
+        return redirect()->route('products.index')->with('Success','Product created successfuly.');
     }
 
     //menampilkan data product tertentu
     public function show(Product $product): View{
-        $image = Storage::get($product->order_image);
         return view('products.show', compact('product'));
     }
     public function displayImage($filename)
     {
     
-        $path = storage_public('upload/' . $filename);
+        $path = storage_public('/' . $filename);
     
         if (!File::exists($path)) {
             abort(404);

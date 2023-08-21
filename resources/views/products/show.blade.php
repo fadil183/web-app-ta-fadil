@@ -28,7 +28,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>photo:</strong>
-                <!-- <img src="{{ route('products.displayImage',$product->order_image) }}" alt="" title=""> -->
+                <img src="{{asset('uploads/images/'.$product->order_image)}}" alt="image" width="300" height="250">
             </div>
         </div>
     </div>
