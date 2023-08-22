@@ -21,8 +21,8 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Details:</strong>
-                {{ $product->detail }}
+                <strong>tanggal data dimasukan:</strong>
+                {{ $product->created_at }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

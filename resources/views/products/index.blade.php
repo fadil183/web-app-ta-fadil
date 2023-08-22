@@ -3,14 +3,25 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
+            <div class="pull-right">
                 <h2>Daftar Bukti Kemas</h2>
             </div>
-            <div class="pull-right">
-                @can('product-create')
-                <a class="btn btn-success" href="{{ route('products.create') }}"> Tambah Bukti Kemas</a>
+            <form action="x" method="get">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control mb-3" placeholder="search" name="q" id="searchUser">
+                        <span id="userList"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="form-control mb-3" value="Search">
+                    </div>
+                    @can('product-create')
+                    <div class="col-md-2">
+                        <a class="btn btn-success" href="{{ route('products.create') }}"> Tambah Bukti Kemas</a>
+                    </div>
                 @endcan
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -22,16 +33,16 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
-            <th>Order Number</th>
-            <th>Tanggal Data Dimasukan</th>
-            <th width="280px">Action</th>
+            <th class="col-md">No</th>
+            <th class="col-md">Order Number</th>
+            <!-- <th>Tanggal Data Dimasukan</th> -->
+            <th class="col-md" width="280dp">Action</th>
         </tr>
 	    @foreach ($products as $product)
 	    <tr>
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $product->order_id }}</td>
-	        <td>{{ $product->created_at }}</td>
+	        <!-- <td>{{ $product->created_at }}</td> -->
 	        <td>
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Lihat Foto</a>
