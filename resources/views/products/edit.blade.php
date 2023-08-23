@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -30,22 +34,53 @@
          <div class="row">
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
-		            <strong>Name:</strong>
-		            <input type="text" name="name" value="{{ $product->name }}" class="form-control" placeholder="Name">
+		            <strong>Nomor Pesanan:</strong>
+                    <div id="qr-reader" style="width: 600dp"></div>    
+		            <input type="text" name="order_id" value="{{ $product->order_id }}" class="form-control">
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
-		            <strong>Detail:</strong>
-		            <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ $product->detail }}</textarea>
+		            <div class="row">
+                        <div class="col-md-6">
+                        <strong>data diubah:</strong>
+		                <input disabled class="form-control"  name="updated_at" type="date" value="{{ $product->updated_at }}">
+                        </div>
+                        <div class="col-md-6">
+                        <strong>data dimasukan:</strong>
+		                <input disabled class="form-control"  name="created_at" type="date" value+="{{ $product->created_at }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                    <strong>Foto</strong>
+                        <div class="col">
+                           
+                            <div id="my_camera"></div>
+                            <input class="btn btn-info" type=button value="Take Snapshot" onClick="take_snapshot()">
+                        </div>
+                        <div class="col">
+                            <input type="hidden" name="image" class="image-tag" >
+                            <input type="hidden" name="saved_image_name" value="{{$product->order_image}}">
+                            <div id="results" class="overflow-hidden w-100" alt="Responsive image">Your captured image will appear here...</div>
+                        </div>
+                    </div>
 		        </div>
 		    </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+
+                </div>
+            </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 		      <button type="submit" class="btn btn-primary">Submit</button>
 		    </div>
 		</div>
 
     </form>
-
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+    <script src="{{ asset('js/html5-code-scanner.js')}}"></script>
+    <!-- load image from previous saved image from storage -->
+    <script>
+            document.getElementById('results').innerHTML = '<img src="{{asset('uploads/images/'.$product->order_image)}}"/>'
+    </script>
+    
 @endsection

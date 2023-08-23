@@ -13,7 +13,6 @@ use Storage;
 
 class ProductController extends Controller
 {
-    
     function __construct(){
         $this->middleware('permission:product-list|product-create|product-edit|product-delete',['only'=>['index','show']]);
         $this->middleware('permission:product-create',['only'=>['create','store']]);
@@ -43,7 +42,6 @@ class ProductController extends Controller
         //mengatur gambar yang diambil dari webcam agar bisa disimpan kedalam storage
         $img=$request->image;
         $folderPath='images/';
-
         $image_parts=explode(";base64",$img);
         $image_type_aux= explode($folderPath, $image_parts[0]);
         $image_type=$image_type_aux[0];
@@ -90,20 +88,51 @@ class ProductController extends Controller
     }
 
     //memperbarui data product pada penyimpanan
-    public function update(Request $request, Product $product):RedirectResponses
+    public function update(Request $request, Product $product):RedirectResponse
     {
         //melakukan validasi untuk data yang dikirim apakah terdapat isinya atau tidak
         request()->validate([
-            'order_id'=>'required',
-            'detail'=>'required',
+            'order_id'=>'required|max:255',
+            // 'detail'=>'required',
+            // 'image'=>'required',
         ]);
-        $products->update($request->all());
+        //Image
+        //cek apa ada perubahan gambar
+        if($request->image!=null)
+        {
+            //mengatur gambar yang diambil dari webcam agar bisa disimpan kedalam storage
+            $img=$request->image;
+            $folderPath='images/';
+
+            $image_parts=explode(";base64",$img);
+            $image_type_aux= explode($folderPath, $image_parts[0]);
+            $image_type=$image_type_aux[0];
+
+            $image_base64 = base64_decode($image_parts[1]);
+            $fileName=uniqid().'.png';
+            $file=$folderPath.$fileName;
+            //masukan nama gambar baru kedalam array untuk disimpan ke db
+            $request->request->add(['order_image' => $fileName]);
+            // upload gambar jika ada perubahan
+            if(!Storage::disk('public_uploads')->put($file, $image_base64))
+                {
+                    return redirect()->route('products.index')
+                        ->with('Failed','Upload photo failed');
+                }
+            // hapus gambar terdahulu
+            Storage::disk('public_uploads')->delete($folderPath.$request->saved_image_name);
+        }
+        if(!$product->update($request->all()))
+            {
+                return false;
+            }
         return redirect()->route('products.index')
             ->with('Success','Product updated successfully');
     }
     //menghapus data tertentu
     public function destroy(Product $product):RedirectResponse
     {
+        Storage::disk('public_uploads')->delete('images/'.$product->order_image);
         $product->delete();
         return redirect()->route('products.index')
             ->with('Success','Product deleted successfully');

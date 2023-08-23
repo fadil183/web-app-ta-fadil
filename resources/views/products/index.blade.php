@@ -31,6 +31,12 @@
         </div>
     @endif
 
+    @if ($message = Session::get('Failed'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
     <table class="table table-bordered">
         <tr>
             <th class="col-md">No</th>
