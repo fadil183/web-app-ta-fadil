@@ -59,7 +59,7 @@
                             <input class="btn btn-info" type=button value="Take Snapshot" onClick="take_snapshot()">
                         </div>
                         <div class="col">
-                            <input type="hidden" name="image" class="image-tag" >
+                            <input class="image-tag" type="hidden" name="image"  >
                             <input type="hidden" name="saved_image_name" value="{{$product->order_image}}">
                             <div id="results" class="overflow-hidden w-100" alt="Responsive image">Your captured image will appear here...</div>
                         </div>
@@ -77,7 +77,8 @@
 		</div>
 
     </form>
-    <script src="{{ asset('js/html5-code-scanner.js')}}"></script>
+    <script src="{{ asset('js/image_capturer.js')}}"></script>
+    <script src="{{ asset('js/code_scanner.js')}}"></script>
     <!-- load image from previous saved image from storage -->
     <script>
             document.getElementById('results').innerHTML = '<img src="{{asset('uploads/images/'.$product->order_image)}}"/>'

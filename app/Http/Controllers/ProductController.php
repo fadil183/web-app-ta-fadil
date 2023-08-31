@@ -15,15 +15,23 @@ class ProductController extends Controller
 {
     function __construct(){
         $this->middleware('permission:product-list|product-create|product-edit|product-delete',['only'=>['index','show']]);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete',['only'=>['get','show']]);
         $this->middleware('permission:product-create',['only'=>['create','store']]);
         $this->middleware('permission:product-edit',['only'=>['edit','update']]);
         $this->middleware('permission:product-delete',['only'=>['destroy']]);
     }
 
     // menampilkan semua data product
-    public function index():View
+    public function index(Request $request):View
     {
-        $products=Product::latest()->paginate(5);
+        if($request=null)
+        {
+            $products=Product::where('order_id','LIKE', $request.'%')->paginate(10);
+        }
+        else
+        {
+            $products=Product::latest()->paginate(10);
+        }
         return view('products.index', compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -35,7 +43,6 @@ class ProductController extends Controller
     public function store(Request $request):RedirectResponse{
         request()->validate([
             'order_id'=>'required|unique:products,order_id|max:255',
-            'detail'=>'required',
             'image'=>'required',
         ]);
         //Image
@@ -63,6 +70,37 @@ class ProductController extends Controller
     public function show(Product $product): View{
         return view('products.show', compact('product'));
     }
+
+    public function find(Request $request)
+    {
+        $query = $request->get('query');
+        // $query = $request->query;
+
+        if($request->ajax())
+        {
+            $data=Product::where('order_id','LIKE', $query.'%')
+            ->limit(10)
+            ->get();
+            $output='';
+            if(count($data)>0)
+            {
+                $output='<ul class="list-group">';
+                foreach($data as $row)
+                {
+                    $output .='<li class="list-group-item">'.$row->order_id.'</li>';
+                }
+                $output.='</ul>';
+            } else 
+            {
+                $output .='<li class="list-group-item">'. 'data tidak ada'.'</li>';
+            }
+            return $output;
+        }
+        $products=$request;
+        $user=Product::where('order_id', 'LIKE', '&'.$query.'%')
+            ->simplePaginate(10);
+            return view('products.index', compact('products'));
+    }   
     public function displayImage($filename)
     {
     
@@ -93,8 +131,6 @@ class ProductController extends Controller
         //melakukan validasi untuk data yang dikirim apakah terdapat isinya atau tidak
         request()->validate([
             'order_id'=>'required|max:255',
-            // 'detail'=>'required',
-            // 'image'=>'required',
         ]);
         //Image
         //cek apa ada perubahan gambar

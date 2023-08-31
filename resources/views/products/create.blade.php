@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript">
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -31,20 +32,20 @@
          <div class="row">
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
-		            <strong>Nomor Pesanan:</strong>
-                    <div id="qr-reader" style="width: 600dp"></div>    
-		            <input id="order_id" type="text" name="order_id" class="form-control" placeholder="nomor pesanan pada resi" value="">
+		            <strong>Nomor pesanan / resi :</strong> 
+		            <input id="order_id" type="text" name="order_id" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
+                    <div id="qr-reader" style="width: 100%"></div>   
 		        </div>
 		    </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
-		            <strong>picture:</strong>
+		            <strong>Bukti Gambar:</strong>
                     <div class="row">
                         <div class="col-md-6">
                             <div id="my_camera"></div>
                             <br/>
-                            <input type=button value="Take Snapshot" onClick="take_snapshot()">
-                            <input type="hidden" name="image" class="image-tag">
+                            <input type="hidden" name="image" class="image-tag" >
+                            <input class="form-control" type="button" value="Take Snapshot" onClick="take_snapshot()" >
                         </div>
                         <div class="col-md-6">
                             <div id="results">Your captured image will appear here...</div>
@@ -65,5 +66,8 @@
 
     </form>
 
-    <script src="{{ asset('js/html5-code-scanner.js')}}"></script>
+    <script src="{{ asset('js/image_capturer.js')}}"></script>
+    <script src="{{ asset('js/code_scanner.js')}}"></script>
+
 @endsection
+

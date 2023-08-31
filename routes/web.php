@@ -36,4 +36,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('scanner',ScannerController::class);
     Route::resource('credit',CreditController::class);
     Route::get('/{filename}', 'ProductController@displayImage')->name('products.displayImage');
+    Route::get('/find', [ProductController::class,'find'])->name('products.find');
+
+
 });
