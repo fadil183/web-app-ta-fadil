@@ -20,11 +20,11 @@
 
 <table class="table table-bordered">
  <tr>
-   <th>No</th>
-   <th>Name</th>
-   <th>Email</th>
-   <th>Roles</th>
-   <th width="280px">Action</th>
+   <th class="col-sm" >No</th>
+   <th class="col-sm">Name</th>
+   <th class="col-sm">Email</th>
+   <th class="col-sm">Roles</th>
+   <th class="col-sm" width="280px">Action</th>
  </tr>
  @foreach ($data as $key => $user)
   <tr>

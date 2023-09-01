@@ -22,9 +22,9 @@
 
 <table class="table table-bordered">
   <tr>
-     <th>No</th>
-     <th>Name</th>
-     <th width="280px">Action</th>
+     <th class="col-sm">No</th>
+     <th class="col-sm">Name</th>
+     <th class="col-sm" width="280px">Action</th>
   </tr>
     @foreach ($roles as $key => $role)
     <tr>
