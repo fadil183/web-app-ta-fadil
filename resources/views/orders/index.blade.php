@@ -9,7 +9,7 @@
             <div class="pull-right">
                 <h2>Daftar Bukti Kemas</h2>
             </div>
-            <form action="{{route('products.index')}}" method="get">
+            <form action="{{route('orders.index')}}" method="get">
                 <div class="row">
                     <div class="col-md-8">
                         <input type="text" class="form-control mb-4" placeholder="search" name="query" id="searchUser">
@@ -18,9 +18,9 @@
                     <div class="col-md-2">
                         <input type="submit" class="form-control mb-4 btn btn-secondary" value="Search">
                     </div>
-                    @can('product-create')
+                    @can('order-create')
                     <div class="col-md-2">
-                        <a class="btn btn-success form-control mb-4" href="{{ route('products.create') }}"> Tambah Data</a>
+                        <a class="btn btn-success form-control mb-4" href="{{ route('orders.create') }}"> Tambah Data</a>
                     </div>
                 @endcan
                 </div>
@@ -35,7 +35,7 @@
     @endif
 
     @if ($message = Session::get('Failed'))
-        <div class="alert alert-success">
+        <div class="alert alert-danger">
             <p>{{ $message }}</p>
         </div>
     @endif
@@ -47,22 +47,22 @@
             <!-- <th>Tanggal Data Dimasukan</th> -->
             <th class="col-md" width="280dp">Action</th>
         </tr>
-        @if (!empty($products) )
-            @foreach ($products as $product)
+        @if (!empty($orders) )
+            @foreach ($orders as $order)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ $product->order_id }}</td>
-                <!-- <td>{{ $product->created_at }}</td> -->
+                <td>{{ $order->id_order }}</td>
+                <!-- <td>{{ $order->created_at }}</td> -->
                 <td>
-                    <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{asset('uploads/images/'.$product->order_image)}}">Lihat Foto</a>
-                        @can('product-edit')
-                        <a class="btn btn-warning" href="{{ route('products.edit',$product->id) }}">Edit</a>
+                    <form action="{{ route('orders.destroy',$order->id) }}" method="POST">
+                        <a class="btn btn-info" href="{{asset('uploads/images/'.$order->image_order)}}">Lihat Foto</a>
+                        @can('order-edit')
+                        <a class="btn btn-warning" href="{{ route('orders.edit',$order->id) }}">Edit</a>
                         @endcan
 
                         @csrf
                         @method('DELETE')
-                        @can('product-delete')
+                        @can('order-delete')
                         <button type="submit" class="btn btn-danger">Delete</button>
                         @endcan
                     </form>
@@ -72,15 +72,15 @@
         @endif
     </table>
 
-    {!! $products->links() !!}
+    {!! $orders->links() !!}
 
 @endsection
-<script>
-    $('#searchUser').on('keyup', function()
+<!-- <script>
+    $('.searchUser').on('keyup', function()
     {
         var query=$(this).val();
         $.ajax({
-            url:"{{route('products.find')}}",
+            url:"{{route('orders.find')}}",
             type:"GET",
             data:{'query':query},
             success:function (data){
@@ -92,4 +92,4 @@
         var value = $(this).text();
     })
 
-</script>
+</script> -->

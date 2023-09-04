@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -11,39 +11,39 @@ use Illuminate\Http\RedirectResponse;
 use Storage;
 
 
-class ProductController extends Controller
+class OrderController extends Controller
 {
     function __construct(){
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete',['only'=>['index','show']]);
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete',['only'=>['get','show']]);
-        $this->middleware('permission:product-create',['only'=>['create','store']]);
-        $this->middleware('permission:product-edit',['only'=>['edit','update']]);
-        $this->middleware('permission:product-delete',['only'=>['destroy']]);
+        $this->middleware('permission:order-list|order-create|order-edit|order-delete',['only'=>['index','show']]);
+        $this->middleware('permission:order-list|order-create|order-edit|order-delete',['only'=>['get','show']]);
+        $this->middleware('permission:order-create',['only'=>['create','store']]);
+        $this->middleware('permission:order-edit',['only'=>['edit','update']]);
+        $this->middleware('permission:order-delete',['only'=>['destroy']]);
     }
 
-    // menampilkan semua data product
+    // menampilkan semua data order
     public function index(Request $request):View
     {
         if($request=null)
         {
-            $products=Product::where('order_id','LIKE', $request.'%')->paginate(10);
+            $orders=Order::where('id_order','LIKE', $request.'%')->paginate(10);
         }
         else
         {
-            $products=Product::latest()->paginate(10);
+            $orders=Order::latest()->paginate(10);
         }
-        return view('products.index', compact('products'))
+        return view('orders.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
-    //menampilkan formulir untuk tambah produk baru
+    //menampilkan formulir untuk tambah order baru
     public function create():View{
-        return view('products.create');
+        return view('orders.create');
     }
     //menyimpan data dari form tambah data
     public function store(Request $request):RedirectResponse{
         request()->validate([
-            'order_id'=>'required|unique:products,order_id|max:255',
-            'image'=>'required',
+            'id_order'=>'required|unique:orders,id_order|max:255',
+            'image'=>'required'
         ]);
         //Image
         //mengatur gambar yang diambil dari webcam agar bisa disimpan kedalam storage
@@ -58,17 +58,17 @@ class ProductController extends Controller
         $file=$folderPath.$fileName;
 
         
-        $request->request->add(['order_image' => $fileName]);
+        $request->request->add(['image_order' => $fileName]);
         
-        if(!(Storage::disk('public_uploads')->put($file, $image_base64)&&Product::create($request->all()))) {
-            return false;
+        if(!(Storage::disk('public_uploads')->put($file,$image_base64)&&Order::create($request->all()))) {
+            return redirect()->route('orders.index')->with('Failed','Order created failed db or upload.');
         }
-        return redirect()->route('products.index')->with('Success','Product created successfuly.');
+        return redirect()->route('orders.index')->with('Success','Order created successfuly.');
     }
 
-    //menampilkan data product tertentu
-    public function show(Product $product): View{
-        return view('products.show', compact('product'));
+    //menampilkan data order tertentu
+    public function show(Order $order): View{
+        return view('orders.show', compact('order'));
     }
 
     public function find(Request $request)
@@ -78,7 +78,7 @@ class ProductController extends Controller
 
         if($request->ajax())
         {
-            $data=Product::where('order_id','LIKE', $query.'%')
+            $data=Order::where('id_order','LIKE', $query.'%')
             ->limit(10)
             ->get();
             $output='';
@@ -87,7 +87,7 @@ class ProductController extends Controller
                 $output='<ul class="list-group">';
                 foreach($data as $row)
                 {
-                    $output .='<li class="list-group-item">'.$row->order_id.'</li>';
+                    $output .='<li class="list-group-item">'.$row->id_order.'</li>';
                 }
                 $output.='</ul>';
             } else 
@@ -96,10 +96,10 @@ class ProductController extends Controller
             }
             return $output;
         }
-        $products=$request;
-        $user=Product::where('order_id', 'LIKE', '&'.$query.'%')
+        $orders=$request;
+        $user=Order::where('id_order', 'LIKE', '&'.$query.'%')
             ->simplePaginate(10);
-            return view('products.index', compact('products'));
+            return view('orders.index', compact('orders'));
     }   
     public function displayImage($filename)
     {
@@ -119,18 +119,18 @@ class ProductController extends Controller
         return $response;
     }
 
-    //menampilkan formulir ubah product tertentu
-    public function edit(Product $product):view
+    //menampilkan formulir ubah order tertentu
+    public function edit(Order $order):view
     {
-        return view('products.edit', compact('product'));
+        return view('orders.edit', compact('order'));
     }
 
-    //memperbarui data product pada penyimpanan
-    public function update(Request $request, Product $product):RedirectResponse
+    //memperbarui data order pada penyimpanan
+    public function update(Request $request, Order $order):RedirectResponse
     {
         //melakukan validasi untuk data yang dikirim apakah terdapat isinya atau tidak
         request()->validate([
-            'order_id'=>'required|max:255',
+            'id_order'=>'required|max:255',
         ]);
         //Image
         //cek apa ada perubahan gambar
@@ -152,26 +152,26 @@ class ProductController extends Controller
             // upload gambar jika ada perubahan
             if(!Storage::disk('public_uploads')->put($file, $image_base64))
                 {
-                    return redirect()->route('products.index')
+                    return redirect()->route('orders.index')
                         ->with('Failed','Upload photo failed');
                 }
             // hapus gambar terdahulu
             Storage::disk('public_uploads')->delete($folderPath.$request->saved_image_name);
         }
-        if(!$product->update($request->all()))
+        if(!$order->update($request->all()))
             {
                 return false;
             }
-        return redirect()->route('products.index')
-            ->with('Success','Product updated successfully');
+        return redirect()->route('orders.index')
+            ->with('Success','Order updated successfully');
     }
     //menghapus data tertentu
-    public function destroy(Product $product):RedirectResponse
+    public function destroy(Order $order):RedirectResponse
     {
-        Storage::disk('public_uploads')->delete('images/'.$product->order_image);
-        $product->delete();
-        return redirect()->route('products.index')
-            ->with('Success','Product deleted successfully');
+        Storage::disk('public_uploads')->delete('images/'.$order->order_image);
+        $order->delete();
+        return redirect()->route('orders.index')
+            ->with('Success','Order deleted successfully');
     }
 
 }

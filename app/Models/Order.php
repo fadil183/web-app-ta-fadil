@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Order extends Model
 {
     use HasFactory;
     /**
@@ -14,6 +14,6 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'order_id', 'detail','order_image'
+        'id_order', 'detail_order','image_order'
     ];
 }

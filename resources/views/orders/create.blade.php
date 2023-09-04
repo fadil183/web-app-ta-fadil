@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript">
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+// <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -10,7 +10,7 @@
                 <h2>Add New Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary form-control" href="{{ route('products.index') }}"> Back</a>
+                <a class="btn btn-primary form-control" href="{{ route('orders.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -25,14 +25,14 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('orders.store') }}" method="POST">
     	@csrf
 
          <div class="row">
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>Nomor pesanan / resi :</strong> 
-		            <input id="order_id" type="text" name="order_id" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
+		            <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
                     <div id="qr-reader" style="width: 100%"></div>   
 		        </div>
 		    </div>
@@ -55,7 +55,7 @@
 		    <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>Detail:</strong>
-		            <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
+		            <textarea class="form-control" style="height:150px" name="detail_order" placeholder="Detail"></textarea>
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12 text-center">

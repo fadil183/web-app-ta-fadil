@@ -11,7 +11,7 @@
                 <h2>Edit Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('orders.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
     @endif
 
-    <form action="{{ route('products.update',$product->id) }}" method="POST">
+    <form action="{{ route('orders.update',$order->id) }}" method="POST">
     	@csrf
         @method('PUT')
 
@@ -36,7 +36,7 @@
 		        <div class="form-group">
 		            <strong>Nomor Pesanan:</strong>
                     <div id="qr-reader" style="width: 600dp"></div>    
-		            <input type="text" name="order_id" value="{{ $product->order_id }}" class="form-control">
+		            <input type="text" name="order_id" value="{{ $order->id_order }}" class="form-control">
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">
@@ -44,11 +44,11 @@
 		            <div class="row">
                         <div class="col-md-6">
                         <strong>data diubah:</strong>
-		                <input disabled class="form-control"  name="updated_at" type="date" value="{{ $product->updated_at }}">
+		                <input disabled class="form-control"  name="updated_at" type="date" value="{{ $order->updated_at }}">
                         </div>
                         <div class="col-md-6">
                         <strong>data dimasukan:</strong>
-		                <input disabled class="form-control"  name="created_at" type="date" value+="{{ $product->created_at }}">
+		                <input disabled class="form-control"  name="created_at" type="date" value+="{{ $order->created_at }}">
                         </div>
                     </div>
                     <div class="row">
@@ -59,8 +59,8 @@
                             <input class="btn btn-info" type=button value="Take Snapshot" onClick="take_snapshot()">
                         </div>
                         <div class="col">
-                            <input class="image-tag" type="hidden" name="image"  >
-                            <input type="hidden" name="saved_image_name" value="{{$product->order_image}}">
+                            <input class="image-tag" type="hidden" name="image_order"  >
+                            <input type="hidden" name="saved_image_name" value="{{$order->image_order}}">
                             <div id="results" class="overflow-hidden w-100" alt="Responsive image">Your captured image will appear here...</div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
     <script src="{{ asset('js/code_scanner.js')}}"></script>
     <!-- load image from previous saved image from storage -->
     <script>
-            document.getElementById('results').innerHTML = '<img src="{{asset('uploads/images/'.$product->order_image)}}"/>'
+            document.getElementById('results').innerHTML = '<img src="{{asset('uploads/images/'.$order->order_image)}}"/>'
     </script>
     
 @endsection

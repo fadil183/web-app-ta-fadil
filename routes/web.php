@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WebcameraController;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\CreditController;
@@ -31,12 +31,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class);
+    Route::resource('orders', OrderController::class);
     Route::resource('webcam', WebcameraController::class);
     Route::resource('scanner',ScannerController::class);
     Route::resource('credit',CreditController::class);
-    Route::get('/{filename}', 'ProductController@displayImage')->name('products.displayImage');
-    Route::get('/find', [ProductController::class,'find'])->name('products.find');
+    Route::get('/{filename}', 'OrderController@displayImage')->name('orders.displayImage');
+    Route::get('/find', [OrderController::class,'find'])->name('orders.find');
 
 
 });

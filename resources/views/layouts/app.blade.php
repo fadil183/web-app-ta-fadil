@@ -51,7 +51,7 @@
                         @else
                         <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
                             <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>	
-                            <li><a class="nav-link" href="{{ route('products.index') }}">Manage Bukti Kemas</a></li>
+                            <li><a class="nav-link" href="{{ route('orders.index') }}">Manage Bukti Kemas</a></li>
                             <!-- <li><a class="nav-link" href="{{ route('webcam.index') }}">Image Capture</a></li>
                             <li><a class="nav-link" href="{{ route('scanner.index') }}">Code Scanner</a></li> -->
                             <li class="nav-item dropdown">
