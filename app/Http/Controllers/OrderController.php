@@ -66,19 +66,20 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('Success','Order created successfuly.');
     }
 
-    //menampilkan data order tertentu
+    //menampilkan data order terbaru
     public function show(Order $order): View{
         return view('orders.show', compact('order'));
     }
 
-    public function find(Request $request)
+    public function find(Request $request):View
     {
-        $query = $request->get('query');
-        // $query = $request->query;
+        $query=$request->get('query');
 
         if($request->ajax())
         {
-            $data=Order::where('id_order','LIKE', $query.'%')
+            $data=Order::
+            where('id_order', 'LIKE', $query.'%')
+            ->orwhere('id_order', 'LIKE', '%'.$query)
             ->limit(10)
             ->get();
             $output='';
@@ -96,12 +97,18 @@ class OrderController extends Controller
             }
             return $output;
         }
-        $orders=$request;
-        $user=Order::where('id_order', 'LIKE', '&'.$query.'%')
+
+        
+        $orders=Order::
+            where('id_order', 'LIKE', $query.'%')
+            ->orwhere('id_order', 'LIKE', '%'.$query)
+            ->orwhere('id_order', 'LIKE', '%'.$query.'%')
             ->simplePaginate(10);
-            return view('orders.index', compact('orders'));
+       
+            return view('orders.index', compact('orders'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);;
     }   
-    public function displayImage($filename)
+    public function displayImage($filename):View
     {
     
         $path = storage_public('/' . $filename);

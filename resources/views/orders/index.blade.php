@@ -1,18 +1,19 @@
 @extends('layouts.app')
 @section('content')
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+
 </head>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-right">
                 <h2>Daftar Bukti Kemas</h2>
             </div>
-            <form action="{{route('orders.index')}}" method="get">
+            <form action="{{route('orders.find')}}" method="get">
                 <div class="row">
                     <div class="col-md-8">
-                        <input type="text" class="form-control mb-4" placeholder="search" name="query" id="searchUser">
+                        <input type="text" class="form-control mb-4" placeholder="Pencarian nomor depan dan belakang" name="query" id="searchOrder">
                         <span id="userList"></span>
                     </div>
                     <div class="col-md-2">
@@ -47,7 +48,7 @@
             <!-- <th>Tanggal Data Dimasukan</th> -->
             <th class="col-md" width="280dp">Action</th>
         </tr>
-        @if (!empty($orders) )
+        @if (isset($orders)&&!empty($orders))
             @foreach ($orders as $order)
             <tr>
                 <td>{{ ++$i }}</td>
@@ -70,16 +71,28 @@
             </tr>
             @endforeach
         @endif
+        @if($orders!==null)
+        <script>
+            $(document).ready(function(){
+                var datas = {!! json_encode($orders) !!}; // Pastikan $orders adalah array PHP
+
+                datas.forEach(function(data){
+                    console.log('nomor: ' + data.id_order);
+                    console.log('nama gambar: ' + data.image_order);
+                });
+            });
+        </script>
+        @endif
     </table>
 
     {!! $orders->links() !!}
 
 @endsection
-<!-- <script>
-    $('.searchUser').on('keyup', function()
+<script type="text/javascript">
+    $('#searchOrder').on('keyup', function()
     {
         var query=$(this).val();
-        $.ajax({
+        $jQuery.ajax({
             url:"{{route('orders.find')}}",
             type:"GET",
             data:{'query':query},
@@ -91,5 +104,4 @@
     $('body').on('click', 'li', function(){
         var value = $(this).text();
     })
-
-</script> -->
+</script>

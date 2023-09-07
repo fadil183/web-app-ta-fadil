@@ -35,8 +35,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('webcam', WebcameraController::class);
     Route::resource('scanner',ScannerController::class);
     Route::resource('credit',CreditController::class);
-    Route::get('/{filename}', 'OrderController@displayImage')->name('orders.displayImage');
+    // Route::get('/{filename}', 'OrderController@displayImage')->name('orders.displayImage');
     Route::get('/find', [OrderController::class,'find'])->name('orders.find');
-
 
 });

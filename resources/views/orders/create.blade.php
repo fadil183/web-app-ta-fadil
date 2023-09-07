@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript">
+<!-- qrcode lib -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<!-- webcam lib -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-// <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
