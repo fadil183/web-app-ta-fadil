@@ -9,9 +9,10 @@ function onScanSuccess(decodedText, decodedResult) {
 let html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader",
     {
-      fps: 5,
+      fps: 15,
       qrbox:{width: 600, height: 200},
-      disableFlip: true
+      disableFlip: true,
+      rememberLastUsedCamera: true,
     },
     /* verbose= */ true);
   html5QrcodeScanner.render(onScanSuccess);

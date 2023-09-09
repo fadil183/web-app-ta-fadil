@@ -1,10 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
-
-</head>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-right">
@@ -13,7 +8,7 @@
             <form action="{{route('orders.find')}}" method="get">
                 <div class="row">
                     <div class="col-md-8">
-                        <input type="text" class="form-control mb-4" placeholder="Pencarian nomor depan dan belakang" name="query" id="searchOrder">
+                        <input id="searchOrder" class="searchOrder form-control mb-4" type="text"  placeholder="Pencarian nomor depan dan belakang" name="query" >
                         <span id="userList"></span>
                     </div>
                     <div class="col-md-2">
@@ -71,37 +66,9 @@
             </tr>
             @endforeach
         @endif
-        @if($orders!==null)
-        <script>
-            $(document).ready(function(){
-                var datas = {!! json_encode($orders) !!}; // Pastikan $orders adalah array PHP
-
-                datas.forEach(function(data){
-                    console.log('nomor: ' + data.id_order);
-                    console.log('nama gambar: ' + data.image_order);
-                });
-            });
-        </script>
-        @endif
     </table>
-
     {!! $orders->links() !!}
+<script type="text/javascript" src="{{asset('js/live_search_ajax.js')}}"></script>
 
 @endsection
-<script type="text/javascript">
-    $('#searchOrder').on('keyup', function()
-    {
-        var query=$(this).val();
-        $jQuery.ajax({
-            url:"{{route('orders.find')}}",
-            type:"GET",
-            data:{'query':query},
-            success:function (data){
-                $('#userList').html(data);
-            }
-        })
-    });
-    $('body').on('click', 'li', function(){
-        var value = $(this).text();
-    })
-</script>
+

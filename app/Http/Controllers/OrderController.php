@@ -77,18 +77,19 @@ class OrderController extends Controller
 
         if($request->ajax())
         {
-            $data=Order::
+            $orders=Order::
             where('id_order', 'LIKE', $query.'%')
             ->orwhere('id_order', 'LIKE', '%'.$query)
+            ->orwhere('id_order', 'LIKE', '%'.$query.'%')
             ->limit(10)
             ->get();
             $output='';
-            if(count($data)>0)
+            if(count($orders)>0)
             {
                 $output='<ul class="list-group">';
-                foreach($data as $row)
+                foreach($orders as $order)
                 {
-                    $output .='<li class="list-group-item">'.$row->id_order.'</li>';
+                    $output .='<li class="list-group-item">'.$order->id_order.'</li>';
                 }
                 $output.='</ul>';
             } else 
@@ -96,6 +97,8 @@ class OrderController extends Controller
                 $output .='<li class="list-group-item">'. 'data tidak ada'.'</li>';
             }
             return $output;
+        }else{
+            info('ajax problem');
         }
 
         
