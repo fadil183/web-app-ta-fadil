@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-
 // use Illuminate\Support\Facades\Storage;
 use Storage;
 
 
 class OrderController extends Controller
 {
+    //fungsi yang menangani role
     function __construct(){
         $this->middleware('permission:order-list|order-create|order-edit|order-delete',['only'=>['index','show']]);
         $this->middleware('permission:order-list|order-create|order-edit|order-delete',['only'=>['get','show']]);
@@ -72,7 +72,7 @@ class OrderController extends Controller
     public function show(Order $order): View{
         return view('orders.show', compact('order'));
     }
-
+    //mencari bukti kemas
     public function find(Request $request):View
     {
         $query=$request->get('query');
@@ -113,6 +113,7 @@ class OrderController extends Controller
             return view('orders.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * 5);;
     }   
+    //melihat foto bukti kemas
     public function viewPhoto($id_order):View
     {
         $order = Order::where('id_order', $id_order)->first();
@@ -138,13 +139,11 @@ class OrderController extends Controller
 
         return view('orders.view_photo', compact('data'));
     }
-
     //menampilkan formulir ubah order tertentu
     public function edit(Order $order):view
     {
         return view('orders.edit', compact('order'));
     }
-
     //memperbarui data order pada penyimpanan
     public function update(Request $request, Order $order):RedirectResponse
     {

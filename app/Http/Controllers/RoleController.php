@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-    
+   
 class RoleController extends Controller
 {
     /**

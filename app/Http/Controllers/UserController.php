@@ -20,22 +20,19 @@ class UserController extends Controller
         $this->middleware('permission:manage-user-edit',['only'=>['edit','update']]);
         $this->middleware('permission:manage-user-delete',['only'=>['destroy']]);
     }
-    // menampilkan daftar semua data yang sudah ada
-    public function index(Request $request): View
-    {
-    $data = User::latest()->paginate(5);
 
+    // menampilkan daftar semua data yang sudah ada
+    public function index(Request $request): View {
+    $data = User::latest()->paginate(5);
     return view('users.index',compact('data'))
         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-
     // menampilkan formulir untuk memasukan data user baru
     public function create():View
     {
         $roles=Role::pluck('name','name')->all();
         return view ('users.create',compact('roles'));
     }
-
     //menyimpan data user baru di penyimpanan
     public function store(Request $request):RedirectResponse{
         $this->validate($request,[
@@ -61,7 +58,6 @@ class UserController extends Controller
         $user=User::find($id);
         return view ('users.show', compact('user'));
     }
-
     //menampilkan fromulir untuk merubah data user
     public function edit($id):view
     {
@@ -97,15 +93,11 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success','User updated successfully');
     }
-
     //menghapus data user dari penyimpanan
     public function destroy($id):RedirectResponse{
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfuly');
     }
-
-
-
 }
 
