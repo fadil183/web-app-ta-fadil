@@ -8,7 +8,7 @@
             <form action="{{route('orders.find')}}" method="get">
                 <div class="row">
                     <div class="col-md-8">
-                        <input id="searchOrder" class="searchOrder form-control mb-4" type="text"  placeholder="Pencarian nomor depan dan belakang" name="query" >
+                        <input id="searchOrder" class="searchOrder form-control mb-4" type="text"  placeholder="pencarian 3-4 digit dari depan dan belakang nomor" name="query" >
                         <span id="userList"></span>
                     </div>
                     <div class="col-md-2">
