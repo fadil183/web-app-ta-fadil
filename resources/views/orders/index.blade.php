@@ -51,7 +51,8 @@
                 <!-- <td>{{ $order->created_at }}</td> -->
                 <td>
                     <form action="{{ route('orders.destroy',$order->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{asset('uploads/images/'.$order->image_order)}}">Lihat Foto</a>
+                        <a class="btn btn-info" href="{{route('orders.viewPhoto',['id_order'=>$order->id_order])}}">Lihat Foto</a>
+
                         @can('order-edit')
                         <a class="btn btn-warning" href="{{ route('orders.edit',$order->id) }}">Edit</a>
                         @endcan

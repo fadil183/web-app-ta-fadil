@@ -7,6 +7,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+
 // use Illuminate\Support\Facades\Storage;
 use Storage;
 
@@ -111,22 +113,29 @@ class OrderController extends Controller
             return view('orders.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * 5);;
     }   
-    public function displayImage($filename):View
+    public function viewPhoto($id_order):View
     {
-    
-        $path = storage_public('/' . $filename);
-    
-        if (!File::exists($path)) {
-            abort(404);
+        $order = Order::where('id_order', $id_order)->first();
+
+        if ($order) {
+            $id_order = $order->id_order;
+            $image_order = $order->image_order;
+        } else {
+            $id_order = null;
+            $image_order = null;
         }
-    
-        $file = File::get($path);
-        $type = File::mimeType($path);
-    
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-    
-        return $response;
+
+        $filePath = 'images/' . $image_order;
+        $fileContent = Storage::disk('public_uploads')->get($filePath);
+        $data=
+            [
+                'id'=>$id_order,
+                'content'=>$fileContent
+            ];
+
+        // dd($id_order,$image_order,$fileContent);
+
+        return view('orders.view_photo', compact('data'));
     }
 
     //menampilkan formulir ubah order tertentu
