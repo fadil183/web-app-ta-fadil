@@ -13,6 +13,7 @@
             </div>
             <div class="col-md-6">
                 <p>id : {{$data['id']}}</p>
+                <a href="{{ $data['link']}}" class="btn btn-success">Download</a>
             </div>
         </div>
     </div>
