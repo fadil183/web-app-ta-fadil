@@ -35,7 +35,7 @@
 		        <div class="form-group">
 		            <strong>Nomor Pesanan:</strong>
                     <div id="qr-reader" style="width: 600dp"></div>    
-		            <input type="text" name="order_id" value="{{ $order->id_order }}" class="form-control">
+		            <input type="text" name="id_order" value="{{ $order->id_order }}" class="form-control">
 		        </div>
 		    </div>
 		    <div class="col-xs-12 col-sm-12 col-md-12">

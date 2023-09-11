@@ -32,11 +32,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('orders', OrderController::class);
-    Route::resource('webcam', WebcameraController::class);
-    Route::resource('scanner',ScannerController::class);
     Route::resource('credit',CreditController::class);
     Route::get('/view/{id_order}',[OrderController::class,'viewPhoto'])->name('orders.viewPhoto');
     Route::get('/find', [OrderController::class,'find'])->name('orders.find');
-    
-
 });
