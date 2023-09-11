@@ -127,11 +127,11 @@ class OrderController extends Controller
 
         $filePath = 'images/' . $image_order;
         $fileContent = Storage::disk('public_uploads')->get($filePath);
-        $link=Storage::disk('public_uploads')->url($filePath);
+        // $link
         $data= [
             'id'=>$id_order,
             'content'=>$fileContent,
-            'link'=>$link
+            // 'link'=>$link
         ];
 
         // dd($id_order,$image_order,$fileContent);
