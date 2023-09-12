@@ -20,7 +20,7 @@ Webcam.set(
         height: 700,
         image_format: 'jpeg',
         jpeg_quality: 90,
-        facingMode: { exact: 'environment' }
+        deviceId: { exact: 0 }
     });
 
 Webcam.attach('#my_camera');
