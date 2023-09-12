@@ -50,7 +50,7 @@
                             <input class="form-control" type="button" value="Take Snapshot" onClick="take_snapshot()" >
                         </div>
                         <div class="col-md-6">
-                            <div id="results" style="width: 700px; height: 900px;">Your captured image will appear here...</div>
+                            <div id="results" style="height: 100%;">Your captured image will appear here...</div>
                         </div>
                     </div>
 		        </div>
