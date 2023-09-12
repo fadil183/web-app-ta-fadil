@@ -1,7 +1,7 @@
 
 //Camera
 Webcam.set({
-    width: 600,
+    width: 900,
     height: 700,
     image_format: 'jpeg',
     jpeg_quality: 90,
