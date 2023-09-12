@@ -1,5 +1,5 @@
 
-Camera
+// Camera
 var cameras = new Array(); //create empty array to later insert available devices
 navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
     .then(function (devices) {
