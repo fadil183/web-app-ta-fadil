@@ -1,16 +1,17 @@
 
 // Camera
-var cameras = new Array(); //create empty array to later insert available devices
-navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
-    .then(function (devices) {
-        devices.forEach(function (device) {
-            var i = 0;
-            if (device.kind === "videoinput") { //filter video devices only
-                cameras[i] = device.deviceId; // save the camera id's in the camera array
-                i++;
-            }
-        });
-    })
+// var cameras = new Array(); //create empty array to later insert available devices
+// navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
+//     .then(function (devices) {
+//         devices.forEach(function (device) {
+//             var i = 0;
+//             if (device.kind === "videoinput") { //filter video devices only
+//                 cameras[i] = device.deviceId; // save the camera id's in the camera array
+//                 i++;
+//                 console.log('deviceId'.cameras[i]);
+//             }
+//         });
+//     })
 
 
 Webcam.set(
@@ -20,7 +21,8 @@ Webcam.set(
         height: 700,
         image_format: 'jpeg',
         jpeg_quality: 90,
-        deviceId: { exact: 0 }
+        facingMode: "environment"
+
     });
 
 Webcam.attach('#my_camera');
