@@ -1,16 +1,16 @@
 
-//Camera
-// var cameras = new Array(); //create empty array to later insert available devices
-// navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
-//     .then(function (devices) {
-//         devices.forEach(function (device) {
-//             var i = 0;
-//             if (device.kind === "videoinput") { //filter video devices only
-//                 cameras[i] = device.deviceId; // save the camera id's in the camera array
-//                 i++;
-//             }
-//         });
-//     })
+Camera
+var cameras = new Array(); //create empty array to later insert available devices
+navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
+    .then(function (devices) {
+        devices.forEach(function (device) {
+            var i = 0;
+            if (device.kind === "videoinput") { //filter video devices only
+                cameras[i] = device.deviceId; // save the camera id's in the camera array
+                i++;
+            }
+        });
+    })
 
 
 Webcam.set(
