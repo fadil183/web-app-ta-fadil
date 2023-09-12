@@ -17,6 +17,7 @@
 Webcam.set(
     'constraints',
     {
+        video: true,
         facingMode: "environment",
         width: 900,
         height: 700,
