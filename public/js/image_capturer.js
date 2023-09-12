@@ -25,9 +25,6 @@ Webcam.set(
         height: 700,
         image_format: 'jpeg',
         jpeg_quality: 90,
-        constraits:{
-            video: { facingMode: "user" }
-        }
     });
 
 Webcam.attach('#my_camera');
