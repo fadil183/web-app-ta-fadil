@@ -15,16 +15,15 @@
 
 
 Webcam.set(
-    'constraints',
     {
         video: true,
-        facingMode: "environment",
         width: 900,
         height: 700,
         image_format: 'jpeg',
         jpeg_quality: 90,
-        
-
+        constraits:{
+            facingMode: "environment",
+        }
     });
 
 Webcam.attach('#my_camera');
