@@ -43,7 +43,7 @@
 		            <strong>Bukti Gambar:</strong>
                     <div class="row">
                         <div class="col-md-6">
-                            <div id="my_camera"></div>
+                            <div id="my_camera" style="width: 100%"></div>
                             <br/>
                             <input type="hidden" name="image" class="image-tag" >
                             <input class="form-control" type="button" value="Take Snapshot" onClick="take_snapshot()" >
