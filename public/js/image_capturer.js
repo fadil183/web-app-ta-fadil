@@ -19,7 +19,9 @@ navigator.mediaDevices.enumerateDevices() // get the available devices found in 
 Webcam.set(
     'constraits',
     {
-        deviceId:{exact:"environment"},
+        facingMode: {
+            exact: 'environment'
+          },      
         width: 900,
         height: 700,
         image_format: 'jpeg',
