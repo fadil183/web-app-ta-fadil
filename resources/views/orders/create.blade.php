@@ -58,7 +58,7 @@
                         <canvas id="canvas" width="640" height="480"></canvas>
                         <div id="results" style="height: 100%;">Your captured image will appear here...</div>
                     </div> -->
-                    <main>
+
                         <div class="controls">
                             <input id="button" type="button">Get camera</input>
                             <select id="select">
@@ -67,7 +67,7 @@
                         </div>
 
                         <video id="video" autoplay playsinline></video>
-                    </main>
+
                 </div>
             </div>
         </div>
