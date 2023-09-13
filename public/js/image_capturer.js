@@ -75,7 +75,6 @@ function captureImage() {
     image.src = imageData;
 
     // Tambahkan gambar ke dokumen
-    // document.body.appendChild(image);
     $('.image-tag').val(imageData);
     document.getElementById('results').innerHTML = '<img src="' + image + '"/>';
 }
