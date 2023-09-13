@@ -60,7 +60,7 @@
                     </div> -->
                     <main>
                         <div class="controls">
-                            <input id="button">Get camera</input>
+                            <input id="button" type="button">Get camera</input>
                             <select id="select">
                                 <option>Choose Camera</option>
                             </select>
