@@ -1,6 +1,5 @@
 //code scanner
 
-const btnScan = document.getElementById('btnStartScanner');
 var inputElement = document.getElementById("order_id");
 
 function onScanSuccess(decodedText, decodedResult) {
@@ -12,18 +11,20 @@ function onScanSuccess(decodedText, decodedResult) {
 }
 
 
-btnScan.addEventListener('click', event => {
+ function btnScan(){
   let html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader",
     {
       fps: 15,
-      qrbox: { width: 700, height: 300 },
+      qrbox: { width: 600, height: 300 },
       disableFlip: true,
       rememberLastUsedCamera: true,
     },
   /* verbose= */ true);
   html5QrcodeScanner.render(onScanSuccess);
   document.getElementById('btnStartScanner').style.display = 'none';
+}
 
-});
+document.getElementById('btnStartScanner').onclick=btnScan;
+
 
