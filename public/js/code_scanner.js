@@ -11,7 +11,6 @@ function onScanSuccess(decodedText, decodedResult) {
 }
 
 
- function btnScan(){
   let html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader",
     {
@@ -21,6 +20,7 @@ function onScanSuccess(decodedText, decodedResult) {
       rememberLastUsedCamera: true,
     },
   /* verbose= */ true);
+ function btnScan(){
   html5QrcodeScanner.render(onScanSuccess);
   document.getElementById('btnStartScanner').style.display = 'none';
 }
