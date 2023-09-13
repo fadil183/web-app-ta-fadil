@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <input type="button" id="btnGetCamera" value="Check Camera">
-                            <select name="" id="select"></select>
+                            <select id="select"></select>
                             <video id="my_camera" style="width: 700px; height: 900px;" autoplay="" playsinline=""></video>
                             <br/>
                             <input type="hidden" name="image" class="image-tag" >

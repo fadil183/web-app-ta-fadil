@@ -3,24 +3,14 @@ const video = document.getElementById('my_camera');
 const button = document.getElementById('btnGetCamera');
 const select = document.getElementById('select');
 const canvas = document.getElementById('canvas');
-
 let currentStream;
 
-button.addEventListener('click', event => {
-    const constraints = {
-      video: true,
-      audio: false
-    };
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  });
-  
+function stopMediaTracks(stream) {
+    stream.getTracks().forEach(track => {
+        track.stop();
+    });
+}
+
 function gotDevices(mediaDevices) {
     select.innerHTML = '';
     select.appendChild(document.createElement('option'));
@@ -36,34 +26,50 @@ function gotDevices(mediaDevices) {
         }
     });
 }
+
+button.addEventListener('click', event => {
+    const constraints = {
+        video: true,
+        audio: false
+    };
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
+
+
 button.addEventListener('click', event => {
     if (typeof currentStream !== 'undefined') {
-      stopMediaTracks(currentStream);
+        stopMediaTracks(currentStream);
     }
     const videoConstraints = {};
     if (select.value === '') {
-      videoConstraints.facingMode = 'environment';
+        videoConstraints.facingMode = 'environment';
     } else {
-      videoConstraints.deviceId = { exact: select.value };
+        videoConstraints.deviceId = { exact: select.value };
     }
     const constraints = {
-      video: videoConstraints,
-      audio: false
+        video: videoConstraints,
+        audio: false
     };
     navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(stream => {
-        currentStream = stream;
-        video.srcObject = stream;
-        return navigator.mediaDevices.enumerateDevices();
-      })
-      .then(gotDevices)
-      .catch(error => {
-        console.error(error);
-      });
-  });
-  
-  
+        .getUserMedia(constraints)
+        .then(stream => {
+            currentStream = stream;
+            video.srcObject = stream;
+            return navigator.mediaDevices.enumerateDevices();
+        })
+        .then(gotDevices)
+        .catch(error => {
+            console.error(error);
+        });
+});
+
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices);
 
