@@ -44,12 +44,16 @@
 		            <strong>Bukti Gambar:</strong>
                     <div class="row">
                         <div class="col-md-6">
-                            <div id="my_camera" style="width: 700px; height: 900px;"></div>
+                            <input type="button" id="btnGetCamera" value="Check Camera">
+                            <select name="" id="select"></select>
+                            <video id="my_camera" style="width: 700px; height: 900px;" autoplay="" playsinline=""></video>
                             <br/>
                             <input type="hidden" name="image" class="image-tag" >
-                            <input class="form-control" type="button" value="Take Snapshot" onClick="take_snapshot()" >
+                            
+                            <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()" >
                         </div>
                         <div class="col-md-6">
+                        <canvas id="canvas" width="640" height="480"></canvas>
                             <div id="results" style="height: 100%;">Your captured image will appear here...</div>
                         </div>
                     </div>

@@ -1,39 +1,82 @@
 
-// Camera
-var cameras = new Array(); //create empty array to later insert available devices
-navigator.mediaDevices.enumerateDevices() // get the available devices found in the machine
-    .then(function (devices) {
-        devices.forEach(function (device) {
-            var i = 0;
-            if (device.kind === "videoinput") { //filter video devices only
-                cameras[i] = device.deviceId; // save the camera id's in the camera array
-                i++;
-            }
-        });
-        console.log(cameras[i]);
-        console.log('ttet');
+const video = document.getElementById('my_camera');
+const button = document.getElementById('btnGetCamera');
+const select = document.getElementById('select');
+const canvas = document.getElementById('canvas');
 
-    })
+let currentStream;
 
-
-Webcam.set(
-    'constraits',
-    {
-        facingMode: {
-            exact: 'environment'
-          },      
-        width: 900,
-        height: 700,
-        image_format: 'jpeg',
-        jpeg_quality: 90,
+button.addEventListener('click', event => {
+    const constraints = {
+      video: true,
+      audio: false
+    };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+  
+function gotDevices(mediaDevices) {
+    select.innerHTML = '';
+    select.appendChild(document.createElement('option'));
+    let count = 1;
+    mediaDevices.forEach(mediaDevice => {
+        if (mediaDevice.kind === 'videoinput') {
+            const option = document.createElement('option');
+            option.value = mediaDevice.deviceId;
+            const label = mediaDevice.label || `Camera ${count++}`;
+            const textNode = document.createTextNode(label);
+            option.appendChild(textNode);
+            select.appendChild(option);
+        }
     });
+}
+button.addEventListener('click', event => {
+    if (typeof currentStream !== 'undefined') {
+      stopMediaTracks(currentStream);
+    }
+    const videoConstraints = {};
+    if (select.value === '') {
+      videoConstraints.facingMode = 'environment';
+    } else {
+      videoConstraints.deviceId = { exact: select.value };
+    }
+    const constraints = {
+      video: videoConstraints,
+      audio: false
+    };
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(stream => {
+        currentStream = stream;
+        video.srcObject = stream;
+        return navigator.mediaDevices.enumerateDevices();
+      })
+      .then(gotDevices)
+      .catch(error => {
+        console.error(error);
+      });
+  });
+  
+  
 
-Webcam.attach('#my_camera');
-function take_snapshot() {
-    Webcam.snap(
-        function (data_uri) {
-            $('.image-tag').val(data_uri);
-            document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
-        });
+navigator.mediaDevices.enumerateDevices().then(gotDevices);
+
+
+function captureImage() {
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = canvas.toDataURL('image/png');
+    const image = new Image();
+    image.src = imageData;
+
+    // Tambahkan gambar ke dokumen
+    // document.body.appendChild(image);
+    $('.image-tag').val(imageData);
+    document.getElementById('results').innerHTML = '<img src="' + image + '"/>';
 }
 
