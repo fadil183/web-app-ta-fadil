@@ -37,7 +37,7 @@
 		            <strong>Nomor pesanan / resi :</strong> 
 		            <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
                     <div id="qr-reader" style="width: 100%"></div> 
-                    <button type="button" value="Open Scanner" onClick="startScan()"></button>
+                    <button id="btnStartScanner" class="form-control" type="button" value="Open Scanner">start scanner</button>
 		        </div>
 		    </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
