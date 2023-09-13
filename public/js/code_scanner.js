@@ -1,8 +1,8 @@
 //code scanner
 
 const btnScan = document.getElementById('btnStartScanner');
-
 var inputElement = document.getElementById("order_id");
+
 function onScanSuccess(decodedText, decodedResult) {
   console.log(`Code scanned = ${decodedText}`, decodedResult);
   inputElement.value = `${decodedText}`;
