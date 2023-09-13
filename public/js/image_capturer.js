@@ -20,6 +20,7 @@ Webcam.set(
     'constraits',
     {
         deviceId:{exact:0},
+        facingMode: "environment",
         width: 900,
         height: 700,
         image_format: 'jpeg',
@@ -34,3 +35,4 @@ function take_snapshot() {
             document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
         });
 }
+
