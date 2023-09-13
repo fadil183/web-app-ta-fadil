@@ -75,7 +75,7 @@
     </form>
 
     <script src="{{ asset('js/image_capturer.js')}}"></script>
-    <script src="{{ asset('js/code_scanner.js')}}"></script>
+    <!-- <script src="{{ asset('js/code_scanner.js')}}"></script> -->
 
 @endsection
 
