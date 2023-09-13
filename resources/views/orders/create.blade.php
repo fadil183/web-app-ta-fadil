@@ -4,6 +4,7 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <!-- webcam lib -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js" integrity="sha512-AQMSn1qO6KN85GOfvH6BWJk46LhlvepblftLHzAv1cdIyTWPBKHX+r+NOXVVw6+XQpeW4LJk/GTmoP48FLvblQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
 
@@ -47,7 +48,7 @@
                         <div class="col-md-6">
                             <input type="button" id="btnGetCamera" value="Check Camera">
                             <select id="select"></select>
-                            <video id="my_camera" style="width: 700px; height: 900px;" autoplay="" playsinline=""></video>
+                            <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
                             <br/>
                             <input type="hidden" name="image" class="image-tag" >
                             
