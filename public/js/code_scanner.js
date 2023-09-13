@@ -9,7 +9,20 @@ function onScanSuccess(decodedText, decodedResult) {
   html5QrcodeScanner.clear();
 }
 
-btnScan.addEventListener('click', event => {
+// btnScan.addEventListener('click', event => {
+//   let html5QrcodeScanner = new Html5QrcodeScanner(
+//     "qr-reader",
+//     {
+//       fps: 15,
+//       qrbox: { width: 600, height: 200 },
+//       disableFlip: true,
+//       rememberLastUsedCamera: true,
+//     },
+//   /* verbose= */ true);
+//   html5QrcodeScanner.render(onScanSuccess);
+// });
+
+function startScan() {
   let html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader",
     {
@@ -20,4 +33,4 @@ btnScan.addEventListener('click', event => {
     },
   /* verbose= */ true);
   html5QrcodeScanner.render(onScanSuccess);
-});
+}
