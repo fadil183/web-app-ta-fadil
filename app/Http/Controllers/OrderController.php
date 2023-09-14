@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Storage;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+// use Storage;
 
 class OrderController extends Controller
 {
