@@ -4,9 +4,8 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <!-- webcam lib -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js" integrity="sha512-AQMSn1qO6KN85GOfvH6BWJk46LhlvepblftLHzAv1cdIyTWPBKHX+r+NOXVVw6+XQpeW4LJk/GTmoP48FLvblQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-
+<script src="https://rawgit.com/serratus/quaggaJS/master/dist/quagga.min.js"></script>
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -31,62 +30,180 @@
 
 <form action="{{ route('orders.store') }}" method="POST">
     @csrf
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Nomor pesanan / resi :</strong>
-                <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
-                <div id="qr-reader" style="width: 100%"></div>
-                <button id="btnStartScanner" class="form-control" type="button" value="Open Scanner">start scanner</button>
-            </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Nomor pesanan / resi :</strong>
+            <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
+            <div id="qr-reader" style="width: 100%"></div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Bukti Gambar:</strong>
-                <div class="row">
-                    <!-- <div class="col-md-6">
-                        <input type="button" id="btnGetCamera" value="Check Camera">
-                        <select id="select"></select>
-                        <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
-                        <br />
-                        <input type="hidden" name="image" class="image-tag">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Ambil Gambar Kemas Paket:</strong>
+            <div class="row">
+                <select id="cameraSelect">
+                    <option value="Choose Camera"></option>
+                </select>
+                <video id="video" width="640" height="480" autoplay></video>
+                <input id="startScan" type="button" value="Start Scan"></input>
+                <input id="stopScan" type="button" value="Stop Scan"></input>
+                <!--tombol untuk menangkap gambar -->
+                <input id="capture" type="button" value="Capture Image"></input>
+                <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
+                <input id="image-data" class="image-data" type="hidden" name="image" >
+                <div id="image-view" ></div>
 
-                        <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()">
-                    </div>
-                    <div class="col-md-6">
-                        <canvas id="canvas" width="640" height="480"></canvas>
-                        <div id="results" style="height: 100%;">Your captured image will appear here...</div>
-                    </div> -->
+                <!-- serta tampilkan bukti gambar ke pengguna -->
+                <canvas id="canvas" style="display:none;"></canvas>
 
-                        <div class="controls">
-                            <input id="button" type="button">Get camera</input>
-                            <select id="select">
-                                <option>Choose Camera</option>
-                            </select>
-                        </div>
 
-                        <video id="video" autoplay playsinline></video>
+                <div id="output"></div>
 
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
+                    <br />
+                    <input type="hidden" name="image" class="image-tag">
+                    <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()">
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Detail:</strong>
-                <textarea class="form-control" style="height:150px" name="detail_order" placeholder="Detail"></textarea>
-            </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Detail:</strong>
+            <textarea class="form-control" style="height:150px" name="detail_order" placeholder="Detail"></textarea>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary form-control">Submit</button>
-        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <button type="submit" class="btn btn-primary form-control">Submit</button>
     </div>
 
 </form>
 
 <!-- <script src="{{ asset('js/image_capturer.js')}}"></script> -->
-<script src="{{ asset('js/image_capturer_beta.js')}}"></script>
-
+<script src="{{ asset('js/jsQR.js')}}"></script>
 <!-- <script src="{{ asset('js/code_scanner.js')}}"></script> -->
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const startScanButton = document.getElementById('startScan');
+    const stopScanButton = document.getElementById('stopScan');
+    const captureButton = document.getElementById('capture');
+    const outputDiv = document.getElementById('output');
+    const cameraSelect = document.getElementById('cameraSelect');
+    var txtInputOrderId = document.getElementById("order_id");
+    // var imgView= document.getElementById('image_view').innerHTML;
+    // var imgData=document.getElementById('image_data');
 
+
+    // Fungsi untuk memilih kamera
+    function getCameraList() {
+        navigator.mediaDevices.enumerateDevices()
+            .then((devices) => {
+                devices.forEach((device) => {
+                    if (device.kind === 'videoinput') {
+                        const option = document.createElement('option');
+                        option.value = device.deviceId;
+                        option.text = device.label || `Camera ${cameraSelect.length + 1}`;
+                        cameraSelect.appendChild(option);
+                    }
+                });
+            })
+            .catch((err) => {
+                console.error('Error enumerating devices: ', err);
+            });
+    }
+
+    // Panggil fungsi untuk mendapatkan daftar kamera
+    getCameraList();
+
+    // Fungsi untuk mengganti kamera saat pengguna memilih dari dropdown
+    cameraSelect.addEventListener('change', (event) => {
+        const selectedDeviceId = event.target.value;
+        const constraints = {
+            video: {
+                deviceId: {
+                    exact: selectedDeviceId
+                }
+            }
+        };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error('Error accessing the camera: ', err);
+            });
+    });
+
+    // Fungsi untuk mengambil gambar
+    captureButton.addEventListener('click', () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        const imageDataURL = canvas.toDataURL('image/jpeg');
+        // canvas.val(imageDataURL);
+        $('.image-data').val(imageDataURL);
+        document.getElementById('image-view').innerHTML = '<img src="' + imageDataURL + '"/>';
+
+    });
+
+
+    // Fungsi untuk memulai pemindaian
+    startScanButton.addEventListener('click', () => {
+        const selectedDeviceId = cameraSelect.value;
+
+        const config = {
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: video,
+                constraints: {
+                    deviceId: selectedDeviceId,
+                    facingMode: "environment",
+                },
+                area: {
+                    top: "0%",
+                    right: "0%",
+                    left: "0%",
+                    bottom: "0%"
+                },
+            },
+            numOfWorkers: navigator.hardwareConcurrency || 2,
+            locate: true,
+            decoder: {
+                readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader", "2of5_reader", "code_93_reader"],
+            },
+        };
+
+        Quagga.init(config, (err) => {
+            if (err) {
+                console.error('Error initializing Quagga: ', err);
+                return;
+            }
+            Quagga.start();
+            scannerIsRunning = true;
+            outputDiv.innerText = 'Scanning...';
+        });
+    });
+
+    // Fungsi untuk menghentikan pemindaian
+    stopScanButton.addEventListener('click', () => {
+        Quagga.stop();
+        scannerIsRunning = false;
+        outputDiv.innerText = 'Scanner stopped.';
+    });
+
+    // Memantau hasil pemindaian
+    Quagga.onDetected((result) => {
+        if (scannerIsRunning) {
+            txtInputOrderId.value = `${result.codeResult.code}`;
+        }
+    });
+</script>
+</script>
 @endsection
