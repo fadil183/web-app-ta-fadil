@@ -122,16 +122,20 @@ class OrderController extends Controller
 
         $filePath = 'images/' . $image_order;
         $fileContent = Storage::disk('public_uploads')->get($filePath);
-        // $link
+
         $data = [
             'id' => $id_order,
             'content' => $fileContent,
-            // 'link'=>$link
         ];
-
-        // dd($id_order,$image_order,$fileContent);
-
         return view('orders.view_photo', compact('data'));
+    }
+
+    function downloadPhoto($id_order){
+        $order = Order::where('id_order', $id_order)->first();
+        $image_order = $order->image_order;
+        $filePath = 'images/' . $image_order;
+        $path=Storage::disk('public_uploads')->path($filePath);
+        return response()->download($path, $order->id_order);
     }
     //menampilkan formulir ubah order tertentu
     public function edit(Order $order): view

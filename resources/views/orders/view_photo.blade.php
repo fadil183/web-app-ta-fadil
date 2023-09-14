@@ -12,7 +12,8 @@
                 <img src="data:image/jpeg;base64,{{ base64_encode($data['content']) }}" class="img-fluid" alt="Gambar">
             </div>
             <div class="col-md-6">
-                <p>id : {{$data['id']}}</p>
+                <p>nama foto : {{$data['id']}}</p>
+                <a id="downloadLink" type="button" href="{{ route('order.download', ['id_order' => $data['id']]) }}">Download</a>
             </div>
         </div>
     </div>
