@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit Product</h2>
+                <h2>Edit Order</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('orders.index') }}"> Back</a>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <strong>data diubah:</strong>
+                            <strong>data terakhir diubah:</strong>
                             <input disabled class="form-control" name="updated_at" type="date"
                                 value="{{ $order->updated_at }}">
                         </div>
@@ -65,6 +65,8 @@
                         <strong>Foto</strong>
                         <div class="col">
                             <div id="image-view"></div>
+                            <img src="" class="img-fluid" alt="Gambar">
+
                             {{-- ketika sudah menangkap gambar maka atur data url ke class image-tag --}}
                                 <input id="image-data" class="image-data" type="hidden" name="image">
 
@@ -101,9 +103,9 @@
     <script src="{{ asset('js/rekambuktikemas.js') }}"></script>
 
     <!-- load image from previous saved image from storage -->
-    <script>
+    {{-- <script>
         document.getElementById('image-view').innerHTML =
-            '<img src="{{ asset('uploads/images/' . $order->image_order) }}"/>'
-    </script>
+            "<img src="{{ url('uploads/images/' . $order->image_order) }}"/>
+    </script> --}}
 
 @endsection
