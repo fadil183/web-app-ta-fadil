@@ -65,10 +65,10 @@
                         <strong>Foto</strong>
                         <div class="col">
                             <div id="image-view"></div>
-                            <img src="{{url('storage/uploads/images/')."/".$order->image_order}}" class="img-fluid" alt="Gambar">
+                            <img src="" class="img-fluid" alt="Gambar">
 
                             {{-- ketika sudah menangkap gambar maka atur data url ke class image-tag --}}
-                                <input id="image-data" class="image-data" type="hidden" name="image">
+                            <input id="image-data" class="image-data" type="hidden" name="image">
 
 
                             <video id="video" class="form-control" width="100%" height="auto" autoplay></video>
@@ -103,9 +103,9 @@
     <script src="{{ asset('js/rekambuktikemas.js') }}"></script>
 
     <!-- load image from previous saved image from storage -->
-    {{-- <script>
+    <script>
         document.getElementById('image-view').innerHTML =
-            "<img src="{{ url('uploads/images/' . $order->image_order) }}"/>
-    </script> --}}
+            `<img src="{{ URL("storage/uploads/images/$order->image_order") }}"/>`;
+    </script>
 
 @endsection
