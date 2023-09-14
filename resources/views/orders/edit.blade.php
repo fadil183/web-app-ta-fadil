@@ -63,7 +63,7 @@
                     </div>
                     <div class="row">
                         <strong>Foto</strong>
-                        <div class="col">
+                        <div class="col col-12">
                             <div id="image-view"></div>
                             {{-- ketika sudah menangkap gambar maka atur data url ke class image-tag --}}
                             <input id="image-data" class="image-data" type="hidden" name="image">
@@ -111,7 +111,7 @@
                 .then(data => {
                     // Menetapkan gambar ke elemen dengan ID 'image-view'
                     document.getElementById('image-view').innerHTML =
-                        `<img src="data:image/jpeg;base64,${data.imageData}" class="img-fluid" alt="Gambar">`;
+                        `<img src="data:image/jpeg;base64,${data.imageData}" class="img-fluid"  alt="Gambar">`;
                 })
                 .catch(error => console.error('Error:', error));
         }
