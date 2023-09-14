@@ -14,7 +14,7 @@ const image_data = document.getElementById('image-data');
 // var imgView= document.getElementById('image_view').innerHTML;
 // var imgData=document.getElementById('image_data');
 
-var selectedCameraId = null;
+var selectedCameraId;
 //sembunyikan video jika camera belum dipilih
 video.style.display = "none"
 video.style.display = "none";
@@ -37,12 +37,10 @@ function getCameraList() {
                     cameraSelect.appendChild(option);
                 }
             });
-            // // Cek apakah terdapat ID kamera yang disimpan di localStorage
-            // selectedCameraId = localStorage.getItem('selectedCameraId');
-            // if (selectedCameraId) {
-            //     // cameraSelect.value = selectedCameraId;
-            //     // startStream();
-            // }
+            // Cek apakah terdapat ID kamera yang disimpan di localStorage
+            if(localStorage.getItem('selectedCameraId')!==null){
+            selectedCameraId = localStorage.getItem('selectedCameraId');
+            }
         })
         .catch((err) => {
             console.error('Error enumerating devices: ', err);
@@ -71,11 +69,6 @@ function startStream() {
         });
 }
 
-
-// Panggil fungsi untuk mendapatkan daftar kamera
-getCameraList();
-
-
 function stopStream() {
     video.style.display = 'none';
     captureButton.style.display = 'none';
@@ -99,7 +92,7 @@ captureButton.addEventListener('click', () => {
     // canvas.val(imageDataURL);
     // $('#image-data').val(imageDataURL);
     // $('#image-data').val(imageDataURL)
-    image_data.value=imageDataURL
+    image_data.value = imageDataURL
     // image_data.val(imageDataURL);
     document.getElementById('image-view').innerHTML = '<img src="' + imageDataURL + '"/>';
     stopStream();
@@ -108,6 +101,10 @@ captureButton.addEventListener('click', () => {
 
 // Fungsi untuk memulai pemindaian
 startScanButton.addEventListener('click', () => {
+    startScanCode();
+});
+
+function startScanCode() {
     const selectedDeviceId = cameraSelect.value;
     const config = {
         inputStream: {
@@ -156,7 +153,7 @@ startScanButton.addEventListener('click', () => {
         startScanButton.disabled = true;
         startScanButton.value = 'Scanning';
     });
-});
+}
 
 // Fungsi untuk menghentikan pemindaian
 stopScanButton.addEventListener('click', () => {
@@ -203,3 +200,17 @@ function stopImageCapture() {
     captureButton.style.display = 'none';
     captureButton.val('ambil ulang foto');
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Panggil fungsi untuk mendapatkan daftar kamera
+    getCameraList();
+    if (selectedCameraId !== "") {
+        video.style.display = 'block';
+        startScanButton.style.display = 'block';
+        warnNotif.style.display = 'none';
+        startStream();
+        setTimeout(function() {
+            startScanCode();
+        }, 500);
+    }
+});
