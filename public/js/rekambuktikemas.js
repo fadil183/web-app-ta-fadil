@@ -23,9 +23,6 @@ video.style.display = "none";
 startScanButton.style.display = "none";
 stopScanButton.style.display = "none";
 captureButton.style.display = 'none';
-document.addEventListener('DOMContentLoaded', function () {
-
-})
 
 // Fungsi untuk memilih kamera
 function getCameraList() {
@@ -40,7 +37,7 @@ function getCameraList() {
                 }
             });
             // Cek apakah terdapat ID kamera yang disimpan di localStorage
-            if (localStorage.getItem('selectedCameraId') !== null) {
+            if (!(localStorage.getItem('selectedCameraId')=== null)) {
                 selectedCameraId = localStorage.getItem('selectedCameraId');
             }
         })
@@ -51,7 +48,7 @@ function getCameraList() {
 
 // fungsi memulai stream video
 function startStream() {
-    selectedDeviceId = event.target.value;
+    // selectedDeviceId = event.target.value;
     const constraints = {
         video: {
             deviceId: {
@@ -105,7 +102,7 @@ startScanButton.addEventListener('click', () => {
 });
 
 function startScanCode() {
-    const selectedDeviceId = cameraSelect.value;
+    selectedDeviceId = cameraSelect.value;
     const config = {
         inputStream: {
             name: "Live",
@@ -183,9 +180,12 @@ cameraSelect.addEventListener('change', (event) => {
     startScanButton.style.display = 'block';
     cameraSelect.disabled = true;
     warnNotif.style.display = 'none';
-    startStream();
     // Simpan ID kamera yang dipilih di localStorage
-    localStorage.setItem('selectedCameraId', selectedDeviceId);
+    var selectElement = document.getElementById('cameraSelect');
+    var selectedOptionValue = selectElement.value;
+    localStorage.setItem('selectedCameraId', selectedOptionValue);
+    startStream();
+
 });
 
 function startImageCapture() {
@@ -200,15 +200,15 @@ function stopImageCapture() {
     captureButton.style.display = 'none';
     captureButton.val('ambil ulang foto');
 }
-
+startStreaming=startStream();
 document.addEventListener('DOMContentLoaded', function () {
     // Panggil fungsi untuk mendapatkan daftar kamera
     getCameraList();
-    if (selectedCameraId !== "") {
+    if (!(selectedCameraId === null)) {
         video.style.display = 'block';
         startScanButton.style.display = 'block';
         warnNotif.style.display = 'none';
-        startStream();
+        startStreaming;
         setTimeout(function () {
             startScanCode();
         }, 500);
