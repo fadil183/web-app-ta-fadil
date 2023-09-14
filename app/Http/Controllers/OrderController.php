@@ -107,8 +107,8 @@ class OrderController extends Controller
 
         return view('orders.index', compact('orders'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
-    //melihat foto bukti kemas
-    public function viewPhoto($id_order): View
+    //melihat bukti kemas
+    public function orderView($id_order): View
     {
         $order = Order::where('id_order', $id_order)->first();
 
@@ -130,11 +130,20 @@ class OrderController extends Controller
         return view('orders.view_photo', compact('data'));
     }
 
-    function downloadPhoto($id_order){
+    public function displayImage($id_order)
+    {
+        $order = Order::where('id_order', $id_order)->first();
+        $imagePath = 'images/' . $order->image_order;
+        $imageData = Storage::disk('public_uploads')->get($imagePath);
+        return response()->json(['imageData' => base64_encode($imageData)]);
+    }
+
+    function downloadPhoto($id_order)
+    {
         $order = Order::where('id_order', $id_order)->first();
         $image_order = $order->image_order;
         $filePath = 'images/' . $image_order;
-        $path=Storage::disk('public_uploads')->path($filePath);
+        $path = Storage::disk('public_uploads')->path($filePath);
         return response()->download($path, $order->id_order);
     }
     //menampilkan formulir ubah order tertentu
@@ -188,8 +197,8 @@ class OrderController extends Controller
     {
         if (!(Storage::disk('public_uploads')->delete('images/' . $order->image_order) && $order->delete())) {
             return redirect()
-            ->route('orders.index')
-            ->with('Failed', 'Failed order deleted');
+                ->route('orders.index')
+                ->with('Failed', 'Failed order deleted');
         }
         return redirect()
             ->route('orders.index')

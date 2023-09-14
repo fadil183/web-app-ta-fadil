@@ -33,7 +33,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('credit',CreditController::class);
-    Route::get('/view/{id_order}',[OrderController::class,'viewPhoto'])->name('orders.viewPhoto');
+    Route::get('/order/view/{id_order}',[OrderController::class,'orderView'])->name('orders.view');
     Route::get('/find', [OrderController::class,'find'])->name('orders.find');
     Route::get('/download/{id_order}',[OrderController::class,'downloadPhoto'])->name('order.download');
+    Route::get('/display/{id_order}',[OrderController::class,'displayImage'])->name('display.image');
+
 });

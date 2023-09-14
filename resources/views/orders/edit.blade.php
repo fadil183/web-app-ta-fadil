@@ -102,8 +102,21 @@
 
     <!-- load image from previous saved image from storage -->
     <script>
-        document.getElementById('image-view').innerHTML =
-            `<img src="{{ URL("storage/uploads/images/$order->image_order") }}"/>`;
+        // document.getElementById('image-view').innerHTML =
+        //     `<img src="{{ URL("storage/uploads/images/$order->image_order") }}"/>`;
+
+        function getImageData(id_order) {
+            fetch(`/display/${id_order}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Menetapkan gambar ke elemen dengan ID 'image-view'
+                    document.getElementById('image-view').innerHTML =
+                        `<img src="data:image/jpeg;base64,${data.imageData}" class="img-fluid" alt="Gambar">`;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        var id_order="{{$order->id_order}}";
+        getImageData(id_order);
     </script>
 
 @endsection
