@@ -15,6 +15,8 @@ const image_data = document.getElementById('image-data');
 // var imgData=document.getElementById('image_data');
 
 var selectedCameraId;
+var selectedDeviceId;
+
 //sembunyikan video jika camera belum dipilih
 video.style.display = "none"
 video.style.display = "none";
@@ -38,8 +40,8 @@ function getCameraList() {
                 }
             });
             // Cek apakah terdapat ID kamera yang disimpan di localStorage
-            if(localStorage.getItem('selectedCameraId')!==null){
-            selectedCameraId = localStorage.getItem('selectedCameraId');
+            if (localStorage.getItem('selectedCameraId') !== null) {
+                selectedCameraId = localStorage.getItem('selectedCameraId');
             }
         })
         .catch((err) => {
@@ -49,7 +51,7 @@ function getCameraList() {
 
 // fungsi memulai stream video
 function startStream() {
-    const selectedDeviceId = event.target.value;
+    selectedDeviceId = event.target.value;
     const constraints = {
         video: {
             deviceId: {
@@ -57,8 +59,6 @@ function startStream() {
             }
         }
     };
-    // Simpan ID kamera yang dipilih di localStorage
-    localStorage.setItem('selectedCameraId', selectedDeviceId);
     navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
             video.srcObject = stream;
@@ -168,7 +168,6 @@ Quagga.onDetected((result) => {
         // var resultCode=result.codeResult.code;
         // txtInputOrderId.value = result.codeResult.code;
         txtInputOrderId.value = result.codeResult.code;
-
         // stop scan
         Quagga.stop();
         //sembunyikan tombol start scan
@@ -182,10 +181,11 @@ Quagga.onDetected((result) => {
 cameraSelect.addEventListener('change', (event) => {
     video.style.display = 'block';
     startScanButton.style.display = 'block';
-    startStream();
     cameraSelect.disabled = true;
     warnNotif.style.display = 'none';
-
+    startStream();
+    // Simpan ID kamera yang dipilih di localStorage
+    localStorage.setItem('selectedCameraId', selectedDeviceId);
 });
 
 function startImageCapture() {
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
         startScanButton.style.display = 'block';
         warnNotif.style.display = 'none';
         startStream();
-        setTimeout(function() {
+        setTimeout(function () {
             startScanCode();
         }, 500);
     }
