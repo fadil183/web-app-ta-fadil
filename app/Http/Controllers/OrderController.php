@@ -182,7 +182,7 @@ class OrderController extends Controller
     //menghapus data tertentu
     public function destroy(Order $order): RedirectResponse
     {
-        if (Storage::disk('public_uploads')->delete('images/' . $order->image_order) && $order->delete()) {
+        if (!(Storage::disk('public_uploads')->delete('images/' . $order->image_order) && $order->delete())) {
             return redirect()
             ->route('orders.index')
             ->with('Failed', 'Failed order deleted');
