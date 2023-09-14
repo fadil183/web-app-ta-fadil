@@ -169,7 +169,9 @@ stopScanButton.addEventListener('click', () => {
 Quagga.onDetected((result) => {
     if (scannerIsRunning) {
         // var resultCode=result.codeResult.code;
+        // txtInputOrderId.value = result.codeResult.code;
         txtInputOrderId.value = result.codeResult.code;
+
         // stop scan
         Quagga.stop();
         //sembunyikan tombol start scan
