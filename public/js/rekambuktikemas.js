@@ -8,6 +8,7 @@ const captureButton = document.getElementById('capture');
 const outputDiv = document.getElementById('output');
 const cameraSelect = document.getElementById('cameraSelect');
 var txtInputOrderId = document.getElementById("order_id");
+const warnNotif=document.getElementById('notif-warning');
 // var imgView= document.getElementById('image_view').innerHTML;
 // var imgData=document.getElementById('image_data');
 
@@ -178,6 +179,7 @@ cameraSelect.addEventListener('change', (event) => {
     startScanButton.style.display = 'block';
     startStream();
     cameraSelect.disabled = true;
+    warnNotif.style.display='none';
 
 });
 

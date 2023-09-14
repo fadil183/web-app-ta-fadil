@@ -29,8 +29,14 @@
 <form action="{{ route('orders.store') }}" method="POST">
     @csrf
     <div class="col-xs-12 col-sm-12 col-md-12">
+
         <div class="form-group">
             <strong>Kamera</strong>
+
+            <div id="notif-warning" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Pilih kamera terlebih dahulu</strong>
+                </button>
+            </div>
             <select id="cameraSelect" class="form-control" required>
                 <option value="">Kamera Belum dipilih</option>
             </select>
@@ -47,10 +53,14 @@
             <div class="row">
                 <div id="image-view"></div>
                 <video id="video" class="form-control" width="100%" height="auto" autoplay></video>
-                <input id="startScan" class="form-control btn btn-success" type="button" value="Start Scan"></input>
-                <input id="stopScan"  class="form-control"type="button" value="Stop Scan"></input>
+                <input id="stopScan" class="form-control" type="button" value="Stop Scan"></input>
                 <!--tombol untuk menangkap gambar -->
-                <input id="capture" class="form-control btn btn-warning" type="button" value="Capture"></input>
+
+                        <input id="startScan" class="btn btn-success" type="button" value="Start Scan"></input>
+                        <input id="capture" class="btn btn-warning " type="button" value="Capture"></input>
+
+
+
                 <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
                 <input id="image-data" class="image-data" type="hidden" name="image">
                 <!-- serta tampilkan bukti gambar ke pengguna -->
