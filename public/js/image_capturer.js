@@ -29,7 +29,9 @@ Webcam.attach('#my_camera');
 function take_snapshot() {
     Webcam.snap(
         function (data_uri) {
+            //menyimpan data sementara hasil foto
             $('.image-tag').val(data_uri);
+            //menampilkan hasil
             document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
         });
 }

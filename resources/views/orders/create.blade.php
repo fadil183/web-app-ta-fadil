@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <strong>Nomor pesanan / resi :</strong>
-            <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
+            <input id="id_order" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
             <div id="qr-reader" style="width: 100%"></div>
         </div>
     </div>
@@ -52,17 +52,17 @@
             <strong>Hasil Gambar Kemas Paket:</strong>
             <div class="row">
                 <div id="image-view"></div>
+                 <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
+                 <input id="image-data" class="image-data" type="hidden" name="image">
+                 
+                {{-- tag untuk menempatkan video stream --}}
                 <video id="video" class="form-control" width="100%" height="auto" autoplay></video>
                 <input id="stopScan" class="form-control" type="button" value="Stop Scan"></input>
+                <!-- untuk memindai barcode -->
+                <input id="startScan" class="btn btn-success" type="button" value="Start Scan"></input>
                 <!--tombol untuk menangkap gambar -->
-
-                        <input id="startScan" class="btn btn-success" type="button" value="Start Scan"></input>
-                        <input id="capture" class="btn btn-warning " type="button" value="Capture"></input>
-
-
-
-                <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
-                <input id="image-data" class="image-data" type="hidden" name="image">
+                <input id="capture" class="btn btn-warning " type="button" value="Capture"></input>
+               
                 <!-- serta tampilkan bukti gambar ke pengguna -->
                 <canvas id="canvas" style="display:none;"></canvas>
                 <div id="output"></div>

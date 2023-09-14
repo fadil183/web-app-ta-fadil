@@ -1,3 +1,4 @@
+// const { isDepsOptimizerEnabled } = require("vite");
 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
@@ -7,8 +8,9 @@ const stopScanButton = document.getElementById('stopScan');
 const captureButton = document.getElementById('capture');
 const outputDiv = document.getElementById('output');
 const cameraSelect = document.getElementById('cameraSelect');
-var txtInputOrderId = document.getElementById("order_id");
-const warnNotif=document.getElementById('notif-warning');
+var txtInputOrderId = document.getElementById("id_order");
+const warnNotif = document.getElementById('notif-warning');
+const image_data = document.getElementById('image-data');
 // var imgView= document.getElementById('image_view').innerHTML;
 // var imgData=document.getElementById('image_data');
 
@@ -95,7 +97,10 @@ captureButton.addEventListener('click', () => {
     context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     const imageDataURL = canvas.toDataURL('image/jpeg');
     // canvas.val(imageDataURL);
-    $('.image-data').val(imageDataURL);
+    // $('#image-data').val(imageDataURL);
+    // $('#image-data').val(imageDataURL)
+    image_data.value=imageDataURL
+    // image_data.val(imageDataURL);
     document.getElementById('image-view').innerHTML = '<img src="' + imageDataURL + '"/>';
     stopStream();
 });
@@ -149,7 +154,7 @@ startScanButton.addEventListener('click', () => {
         startScanButton.classList.remove('btn-success');
         startScanButton.classList.add('btn-danger');
         startScanButton.disabled = true;
-        startScanButton.value='Scanning';
+        startScanButton.value = 'Scanning';
     });
 });
 
@@ -179,7 +184,7 @@ cameraSelect.addEventListener('change', (event) => {
     startScanButton.style.display = 'block';
     startStream();
     cameraSelect.disabled = true;
-    warnNotif.style.display='none';
+    warnNotif.style.display = 'none';
 
 });
 
