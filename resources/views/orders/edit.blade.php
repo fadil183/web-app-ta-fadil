@@ -65,8 +65,6 @@
                         <strong>Foto</strong>
                         <div class="col">
                             <div id="image-view"></div>
-                            <img src="" class="img-fluid" alt="Gambar">
-
                             {{-- ketika sudah menangkap gambar maka atur data url ke class image-tag --}}
                             <input id="image-data" class="image-data" type="hidden" name="image">
 
