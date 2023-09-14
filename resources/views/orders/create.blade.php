@@ -35,53 +35,49 @@
             <strong>Nomor pesanan / resi :</strong>
             <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
             <div id="qr-reader" style="width: 100%"></div>
-            <button id="btnStartScanner" class="form-control" type="button" value="Open Scanner">start scanner</button>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Bukti Gambar:</strong>
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="button" id="btnGetCamera" value="Check Camera">
-                        <select id="select"></select>
-                        <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
-                        <br />
-                        <input type="hidden" name="image" class="image-tag">
-                        <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()">
-                    </div>
-                    <div class="col-md-6">
-                        <canvas id="canvas" width="640" height="480"></canvas>
-                        <div id="results" style="height: 100%;">Your captured image will appear here...</div>
-                    </div>
+        <div class="form-group">
+            <strong>Ambil Gambar Kemas Paket:</strong>
+            <div class="row">
+                <select id="cameraSelect">
+                    <option value="Choose Camera"></option>
+                </select>
+                <video id="video" width="640" height="480" autoplay></video>
+                <input id="startScan" type="button" value="Start Scan"></input>
+                <input id="stopScan" type="button" value="Stop Scan"></input>
+                <!--tombol untuk menangkap gambar -->
+                <input id="capture" type="button" value="Capture Image"></input>
+                <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
+                <input id="image-data" class="image-data" type="hidden" name="image" >
+                <div id="image-view" ></div>
 
-                    <input id="button" type="button">Get camera</input>
-                    <select id="select">
-                        <option>Choose Camera</option>
-                    </select>
-                    <video id="video" autoplay playsinline></video>
+                <!-- serta tampilkan bukti gambar ke pengguna -->
+                <canvas id="canvas" style="display:none;"></canvas>
+
+
+                <div id="output"></div>
+
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
+                    <br />
+                    <input type="hidden" name="image" class="image-tag">
+                    <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()">
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Detail:</strong>
-                <textarea class="form-control" style="height:150px" name="detail_order" placeholder="Detail"></textarea>
-            </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Detail:</strong>
+            <textarea class="form-control" style="height:150px" name="detail_order" placeholder="Detail"></textarea>
         </div>
-    <div class="row">
-        <select id="cameraSelect">
-            <option value="Choose Camera"></option>
-        </select>
-        <video id="video" width="640" height="480" autoplay></video>
-        <input id="startScan" type="button" value="Start Scan"></input>
-        <input id="stopScan" type="button" value="Stop Scan"></input>
-        <input id="capture" type="button" value="Capture Image"></input>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <div id="output"></div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary form-control">Submit</button>
-        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <button type="submit" class="btn btn-primary form-control">Submit</button>
     </div>
 
 </form>
@@ -99,6 +95,8 @@
     const outputDiv = document.getElementById('output');
     const cameraSelect = document.getElementById('cameraSelect');
     var txtInputOrderId = document.getElementById("order_id");
+    // var imgView= document.getElementById('image_view').innerHTML;
+    // var imgData=document.getElementById('image_data');
 
 
     // Fungsi untuk memilih kamera
@@ -147,9 +145,11 @@
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-        const imageDataURL = canvas.toDataURL('image/png');
+        const imageDataURL = canvas.toDataURL('image/jpeg');
+        // canvas.val(imageDataURL);
+        $('.image-data').val(imageDataURL);
+        document.getElementById('image-view').innerHTML = '<img src="' + imageDataURL + '"/>';
 
-        // outputDiv.innerHTML = `<img src="${imageDataURL}" alt="Captured Image">`;
     });
 
 
@@ -201,7 +201,7 @@
     // Memantau hasil pemindaian
     Quagga.onDetected((result) => {
         if (scannerIsRunning) {
-            txtInputOrderId.value=`${result.codeResult.code}`;
+            txtInputOrderId.value = `${result.codeResult.code}`;
         }
     });
 </script>
