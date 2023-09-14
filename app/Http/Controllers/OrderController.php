@@ -183,7 +183,9 @@ class OrderController extends Controller
     public function destroy(Order $order): RedirectResponse
     {
         if (Storage::disk('public_uploads')->delete('images/' . $order->image_order) && $order->delete()) {
-            return false;
+            return redirect()
+            ->route('orders.index')
+            ->with('Failed', 'Failed order deleted');
         }
         return redirect()
             ->route('orders.index')
