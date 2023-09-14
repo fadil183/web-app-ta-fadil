@@ -32,6 +32,12 @@
     @csrf
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
+            <strong>Kamera</strong>
+            <select id="cameraSelect" class="form-control" required>
+                <option value="">Kamera Belum dipilih</option>
+            </select>
+        </div>
+        <div class="form-group">
             <strong>Nomor pesanan / resi :</strong>
             <input id="order_id" type="text" name="id_order" class="form-control" placeholder="nomor pesanan / nomor resi" value="">
             <div id="qr-reader" style="width: 100%"></div>
@@ -39,35 +45,21 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Ambil Gambar Kemas Paket:</strong>
+            <strong>Hasil Gambar Kemas Paket:</strong>
             <div class="row">
-                <select id="cameraSelect">
-                    <option value="Choose Camera"></option>
-                </select>
-                <video id="video" width="640" height="480" autoplay></video>
-                <input id="startScan" type="button" value="Start Scan"></input>
-                <input id="stopScan" type="button" value="Stop Scan"></input>
+                <div id="image-view"></div>
+                <video id="video" class="form-control" width="100%" height="auto" autoplay></video>
+                <input id="startScan" class="form-control btn btn-success" type="button" value="Start Scan"></input>
+                <input id="stopScan"  class="form-control"type="button" value="Stop Scan"></input>
                 <!--tombol untuk menangkap gambar -->
-                <input id="capture" type="button" value="Capture Image"></input>
+                <input id="capture" class="form-control btn btn-warning" type="button" value="Capture"></input>
                 <!-- ketika sudah menangkap gambar maka atur data gambar uri ke class image-tag -->
-                <input id="image-data" class="image-data" type="hidden" name="image" >
-                <div id="image-view" ></div>
-
+                <input id="image-data" class="image-data" type="hidden" name="image">
                 <!-- serta tampilkan bukti gambar ke pengguna -->
                 <canvas id="canvas" style="display:none;"></canvas>
-
-
                 <div id="output"></div>
 
             </div>
-            <!-- <div class="row">
-                <div class="col-md-6">
-                    <video id="my_camera" style="width: 700px; height: 900px;" autoplay playsinline></video>
-                    <br />
-                    <input type="hidden" name="image" class="image-tag">
-                    <input class="form-control" type="button" value="Take Snapshot" onClick="captureImage()">
-                </div>
-            </div> -->
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -82,10 +74,9 @@
 
 </form>
 
-<!-- <script src="{{ asset('js/image_capturer.js')}}"></script> -->
-<script src="{{ asset('js/jsQR.js')}}"></script>
-<!-- <script src="{{ asset('js/code_scanner.js')}}"></script> -->
-<script>
+<script src="{{ asset('js/rekambuktikemas.js')}}"></script>
+<!-- <script src="{{ asset('js/jsQR.js')}}"></script> -->
+<!-- <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
@@ -98,6 +89,8 @@
     // var imgView= document.getElementById('image_view').innerHTML;
     // var imgData=document.getElementById('image_data');
 
+    const selectedCameraId = null;
+    //fungsi untuk menjalankan kamera
 
     // Fungsi untuk memilih kamera
     function getCameraList() {
@@ -111,17 +104,21 @@
                         cameraSelect.appendChild(option);
                     }
                 });
+                // Cek apakah terdapat ID kamera yang disimpan di localStorage
+                selectedCameraId = localStorage.getItem('selectedCameraId');
+                if (selectedCameraId) {
+                    cameraSelect.value = selectedCameraId;
+                }
             })
             .catch((err) => {
                 console.error('Error enumerating devices: ', err);
             });
     }
-
     // Panggil fungsi untuk mendapatkan daftar kamera
     getCameraList();
 
-    // Fungsi untuk mengganti kamera saat pengguna memilih dari dropdown
-    cameraSelect.addEventListener('change', (event) => {
+    // fungsi memulai stream video
+    function startStream() {
         const selectedDeviceId = event.target.value;
         const constraints = {
             video: {
@@ -130,7 +127,8 @@
                 }
             }
         };
-
+        // Simpan ID kamera yang dipilih di localStorage
+        localStorage.setItem('selectedCameraId', selectedDeviceId);
         navigator.mediaDevices.getUserMedia(constraints)
             .then((stream) => {
                 video.srcObject = stream;
@@ -138,6 +136,12 @@
             .catch((err) => {
                 console.error('Error accessing the camera: ', err);
             });
+    }
+
+
+    // Fungsi untuk mengganti kamera saat pengguna memilih dari dropdown
+    cameraSelect.addEventListener('change', (event) => {
+        startStream();
     });
 
     // Fungsi untuk mengambil gambar
@@ -176,7 +180,19 @@
             numOfWorkers: navigator.hardwareConcurrency || 2,
             locate: true,
             decoder: {
-                readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader", "2of5_reader", "code_93_reader"],
+                readers: [
+                    "code_128_reader",
+                    "ean_reader",
+                    // "ean_8_reader",
+                    // "code_39_reader",
+                    // "code_39_vin_reader",
+                    // "codabar_reader",
+                    // "upc_reader",
+                    // "upc_e_reader",
+                    // "i2of5_reader",
+                    // "2of5_reader",
+                    // "code_93_reader"
+                ],
             },
         };
 
@@ -204,6 +220,5 @@
             txtInputOrderId.value = `${result.codeResult.code}`;
         }
     });
-</script>
-</script>
+</script> -->
 @endsection
