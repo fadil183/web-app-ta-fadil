@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Add New Product</h2>
+            <h2>Tambah Bukti Kemas</h2>
         </div>
         <div class="pull-right">
             <a class="btn btn-primary form-control" href="{{ route('orders.index') }}"> Back</a>

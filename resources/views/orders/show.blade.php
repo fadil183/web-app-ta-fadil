@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2> Show Product</h2>
+                <h2> Bukti Kemas Paket</h2>
             </div>
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('orders.index') }}"> Back</a>
