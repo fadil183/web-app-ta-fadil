@@ -9,6 +9,10 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Termwind\Components\Dd;
+
+use function PHPUnit\Framework\isEmpty;
+
 // use Storage;
 
 class OrderController extends Controller
@@ -78,6 +82,8 @@ class OrderController extends Controller
     public function find(Request $request): View
     {
         $query = $request->get('query');
+        $startDate = $request->input('start_date');
+        $endDate =$request->input('end_date');
 
         if ($request->ajax()) {
             $orders = Order::where('id_order', 'LIKE', $query . '%')
@@ -100,11 +106,17 @@ class OrderController extends Controller
             info('ajax problem');
         }
 
-        $orders = Order::where('id_order', 'LIKE', $query . '%')
+        if($startDate==null&&$endDate==null){
+            $orders = Order::where('id_order', 'LIKE', $query . '%')
             ->orwhere('id_order', 'LIKE', '%' . $query)
             ->orwhere('id_order', 'LIKE', '%' . $query . '%')
             ->simplePaginate(10);
-
+        }else{
+            $orders = Order::
+            whereBetween('created_at', [$startDate, $endDate])
+            ->simplePaginate(10);
+        }
+// dd($startDate,$endDate);
         return view('orders.index', compact('orders'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
     //melihat bukti kemas
