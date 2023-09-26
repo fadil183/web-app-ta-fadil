@@ -106,10 +106,14 @@ class OrderController extends Controller
             info('ajax problem');
         }
 
-        if($startDate==null&&$endDate==null){
+        if($startDate==null&&$endDate==null&&$query!=null){
             $orders = Order::where('id_order', 'LIKE', $query . '%')
             ->orwhere('id_order', 'LIKE', '%' . $query)
             ->orwhere('id_order', 'LIKE', '%' . $query . '%')
+            ->simplePaginate(10);
+        }elseif ($startDate!=null&&$endDate!=null&&$query!=null) {
+            $orders = Order::where('id_order', 'LIKE', '%'.$query .'%')
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->simplePaginate(10);
         }else{
             $orders = Order::
