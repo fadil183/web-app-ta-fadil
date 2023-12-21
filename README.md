@@ -12,7 +12,7 @@ php artisan db:seed --class=PermissionTableSeeder
 ```
 php artisan db:seed --class=CreateAdminUserSeeder
 ```
->this command will add admin user to controll whole application as wide as permission was added into the application
+>this command will add admin user to havea access whole application as wide as permission was added into the application
 >use this login access
 >Email: admin@gmail.com
 >Password: 123456
