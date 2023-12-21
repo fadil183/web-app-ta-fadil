@@ -3,7 +3,7 @@ Version 1.0.0
 
 Aftar cloning project into your local storage first thing first 
 1. add database name in .env file as your desire
-2. run command bellow
+2. run command bellow (must executed sequentially, otherwise admin user wont have any access) 
 ```
 php artisan db:seed --class=PermissionTableSeeder
 ```
