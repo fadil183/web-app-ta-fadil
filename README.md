@@ -1,5 +1,26 @@
-Rekam bukti kemas paket 
+Record proof of package delivery
 Version 1.0.0
+
+Aftar cloning project into your local storage first thing first 
+1. add database name in .env file as your desire
+2. run command bellow
+```
+php artisan db:seed --class=PermissionTableSeeder
+```
+>this command will add how many permission in your application, or you can change it in seeder depend what you need
+
+```
+php artisan db:seed --class=CreateAdminUserSeeder
+```
+>this command will add admin user to controll whole application as wide as permission was added into the application
+>use this login access
+>Email: admin@gmail.com
+>Password: 123456
+
+
+3. try access your local project
+
+
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
